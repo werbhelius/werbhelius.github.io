@@ -10,7 +10,7 @@
 <meta name="keywords" content="项目实战,MVP + RxJava + Retrofit,微博">
 <meta property="og:type" content="article">
 <meta property="og:title" content="业余时间写了一个第三方微博（不使用官方SDK）">
-<meta property="og:url" content="http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/index.html">
+<meta property="og:url" content="http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/index.html">
 <meta property="og:site_name" content="Werbhelius&#39;s Blog">
 <meta property="og:description" content="业余时间写了一个第三方微博（不使用官方SDK） 前段时间，想要写一个练手的项目，所以决定开发一个第三方微博 App 分析 Sina WeiboSDK源码，发现官方Api请求在实现、代码风格上存在很多弊端 本项目中所有的请求，都是利用 RxJava + Retrofit 重新封装请求，并实现无网缓存 采用 MVP 设计模式，充分解耦，在代码阅读、后期维护上有很好的体验 由于新浪暂停对第三方微博的审核">
 <meta property="og:locale" content="zh-Hans">
@@ -100,16 +100,16 @@
     <br>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&text=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&is_video=false&description=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=业余时间写了一个第三方微博（不使用官方SDK）&body=Check out this article: http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&name=业余时间写了一个第三方微博（不使用官方SDK）&description=&lt;h1 id=&#34;业余时间写了一个第三方微博（不使用官方SDK）&#34;&gt;&lt;a href=&#34;#业余时间写了一个第三方微博（不使用官方SDK）&#34; class=&#34;headerlink&#34; title=&#34;业余时间写了一个第三方微博（不使用官方SDK）&#34;&gt;&lt;/a&gt;业余时间写了一个第三方微博（不使用官方SDK）&lt;/h1&gt;&lt;ul&gt;
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&text=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&is_video=false&description=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=业余时间写了一个第三方微博（不使用官方SDK）&body=Check out this article: http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&name=业余时间写了一个第三方微博（不使用官方SDK）&description=&lt;h1 id=&#34;业余时间写了一个第三方微博（不使用官方SDK）&#34;&gt;&lt;a href=&#34;#业余时间写了一个第三方微博（不使用官方SDK）&#34; class=&#34;headerlink&#34; title=&#34;业余时间写了一个第三方微博（不使用官方SDK）&#34;&gt;&lt;/a&gt;业余时间写了一个第三方微博（不使用官方SDK）&lt;/h1&gt;&lt;ul&gt;
 &lt;li&gt;前段时间，想要写一个练手的项目，所以决定开发一个第三方微博 App&lt;/li&gt;
 &lt;li&gt;分析 Sina WeiboSDK源码，发现官方Api请求在实现、代码风格上存在很多弊端&lt;/li&gt;
 &lt;li&gt;本项目中所有的请求，都是利用 RxJava + Retrofit 重新封装请求，并实现无网缓存&lt;/li&gt;
@@ -280,16 +280,16 @@ limitations under the License.
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&text=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&is_video=false&description=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=业余时间写了一个第三方微博（不使用官方SDK）&body=Check out this article: http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&name=业余时间写了一个第三方微博（不使用官方SDK）&description=&lt;h1 id=&#34;业余时间写了一个第三方微博（不使用官方SDK）&#34;&gt;&lt;a href=&#34;#业余时间写了一个第三方微博（不使用官方SDK）&#34; class=&#34;headerlink&#34; title=&#34;业余时间写了一个第三方微博（不使用官方SDK）&#34;&gt;&lt;/a&gt;业余时间写了一个第三方微博（不使用官方SDK）&lt;/h1&gt;&lt;ul&gt;
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&text=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&is_video=false&description=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=业余时间写了一个第三方微博（不使用官方SDK）&body=Check out this article: http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&title=业余时间写了一个第三方微博（不使用官方SDK）"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2016/09/11/业余时间写了一个第三方微博（不使用官方SDK）/&name=业余时间写了一个第三方微博（不使用官方SDK）&description=&lt;h1 id=&#34;业余时间写了一个第三方微博（不使用官方SDK）&#34;&gt;&lt;a href=&#34;#业余时间写了一个第三方微博（不使用官方SDK）&#34; class=&#34;headerlink&#34; title=&#34;业余时间写了一个第三方微博（不使用官方SDK）&#34;&gt;&lt;/a&gt;业余时间写了一个第三方微博（不使用官方SDK）&lt;/h1&gt;&lt;ul&gt;
 &lt;li&gt;前段时间，想要写一个练手的项目，所以决定开发一个第三方微博 App&lt;/li&gt;
 &lt;li&gt;分析 Sina WeiboSDK源码，发现官方Api请求在实现、代码风格上存在很多弊端&lt;/li&gt;
 &lt;li&gt;本项目中所有的请求，都是利用 RxJava + Retrofit 重新封装请求，并实现无网缓存&lt;/li&gt;

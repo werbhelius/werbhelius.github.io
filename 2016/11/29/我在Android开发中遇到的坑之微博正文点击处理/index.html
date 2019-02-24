@@ -10,7 +10,7 @@
 <meta name="keywords" content="微博正文,点击处理,SpannableString">
 <meta property="og:type" content="article">
 <meta property="og:title" content="我在Android开发中遇到的坑之微博正文点击处理">
-<meta property="og:url" content="http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/index.html">
+<meta property="og:url" content="http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/index.html">
 <meta property="og:site_name" content="Werbhelius&#39;s Blog">
 <meta property="og:description" content="我在Android开发中遇到的坑之微博正文点击处理 开发是一个漫长的过程，我们会遇到很多很多的坑，有些却是系统级的坑，有时候遇到真是抓狂，不过这也是我们不断进步的过程，今天就给大家讲一个我遇到的一个很坑的问题。 还好我遇到了一个万能的 Android 大神 stainberg ，他帮助我仔细排查并且解决了问题，有他我真的提高了好多。">
 <meta property="og:locale" content="zh-Hans">
@@ -95,16 +95,16 @@
     <br>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&text=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&is_video=false&description=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=我在Android开发中遇到的坑之微博正文点击处理&body=Check out this article: http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&name=我在Android开发中遇到的坑之微博正文点击处理&description=&lt;h1 id=&#34;我在Android开发中遇到的坑之微博正文点击处理&#34;&gt;&lt;a href=&#34;#我在Android开发中遇到的坑之微博正文点击处理&#34; class=&#34;headerlink&#34; title=&#34;我在Android开发中遇到的坑之微博正文点击处理&#34;&gt;&lt;/a&gt;我在Android开发中遇到的坑之微博正文点击处理&lt;/h1&gt;&lt;ul&gt;
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&text=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&is_video=false&description=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=我在Android开发中遇到的坑之微博正文点击处理&body=Check out this article: http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&name=我在Android开发中遇到的坑之微博正文点击处理&description=&lt;h1 id=&#34;我在Android开发中遇到的坑之微博正文点击处理&#34;&gt;&lt;a href=&#34;#我在Android开发中遇到的坑之微博正文点击处理&#34; class=&#34;headerlink&#34; title=&#34;我在Android开发中遇到的坑之微博正文点击处理&#34;&gt;&lt;/a&gt;我在Android开发中遇到的坑之微博正文点击处理&lt;/h1&gt;&lt;ul&gt;
 &lt;li&gt;开发是一个漫长的过程，我们会遇到很多很多的坑，有些却是系统级的坑，有时候遇到真是抓狂，不过这也是我们不断进步的过程，今天就给大家讲一个我遇到的一个很坑的问题。&lt;/li&gt;
 &lt;li&gt;还好我遇到了一个万能的 Android 大神 stainberg ，他帮助我仔细排查并且解决了问题，有他我真的提高了好多。&lt;/li&gt;
 &lt;/ul&gt;
@@ -252,16 +252,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&text=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&is_video=false&description=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=我在Android开发中遇到的坑之微博正文点击处理&body=Check out this article: http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&name=我在Android开发中遇到的坑之微博正文点击处理&description=&lt;h1 id=&#34;我在Android开发中遇到的坑之微博正文点击处理&#34;&gt;&lt;a href=&#34;#我在Android开发中遇到的坑之微博正文点击处理&#34; class=&#34;headerlink&#34; title=&#34;我在Android开发中遇到的坑之微博正文点击处理&#34;&gt;&lt;/a&gt;我在Android开发中遇到的坑之微博正文点击处理&lt;/h1&gt;&lt;ul&gt;
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&text=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&is_video=false&description=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=我在Android开发中遇到的坑之微博正文点击处理&body=Check out this article: http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2016/11/29/我在Android开发中遇到的坑之微博正文点击处理/&name=我在Android开发中遇到的坑之微博正文点击处理&description=&lt;h1 id=&#34;我在Android开发中遇到的坑之微博正文点击处理&#34;&gt;&lt;a href=&#34;#我在Android开发中遇到的坑之微博正文点击处理&#34; class=&#34;headerlink&#34; title=&#34;我在Android开发中遇到的坑之微博正文点击处理&#34;&gt;&lt;/a&gt;我在Android开发中遇到的坑之微博正文点击处理&lt;/h1&gt;&lt;ul&gt;
 &lt;li&gt;开发是一个漫长的过程，我们会遇到很多很多的坑，有些却是系统级的坑，有时候遇到真是抓狂，不过这也是我们不断进步的过程，今天就给大家讲一个我遇到的一个很坑的问题。&lt;/li&gt;
 &lt;li&gt;还好我遇到了一个万能的 Android 大神 stainberg ，他帮助我仔细排查并且解决了问题，有他我真的提高了好多。&lt;/li&gt;
 &lt;/ul&gt;
