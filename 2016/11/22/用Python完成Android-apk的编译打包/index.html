@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="用 Python 完成 Android apk 的编译打包 Github地址：https:&#x2F;&#x2F;github.com&#x2F;Werb&#x2F;AutoSecret  吐槽 其实当我写完之后，发现并没有什么卵用233 我最一开始想的是每一次在 Github 上发现好玩的 Android 应用，都要下载下来，然后 Gradle build 老半天，其中还要改一些参数，要是直接能装到手机上运行该多好 所以我就想，如果能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用Python完成Android apk的编译打包">
+<meta property="og:url" content="http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/index.html">
+<meta property="og:site_name" content="Wanbo&#39;s Blog">
+<meta property="og:description" content="用 Python 完成 Android apk 的编译打包 Github地址：https:&#x2F;&#x2F;github.com&#x2F;Werb&#x2F;AutoSecret  吐槽 其实当我写完之后，发现并没有什么卵用233 我最一开始想的是每一次在 Github 上发现好玩的 Android 应用，都要下载下来，然后 Gradle build 老半天，其中还要改一些参数，要是直接能装到手机上运行该多好 所以我就想，如果能">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-11-22T13:22:25.000Z">
+<meta property="article:modified_time" content="2020-12-18T08:04:55.316Z">
+<meta property="article:author" content="Wanbo">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Gradle">
+<meta property="article:tag" content="打包">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>用Python完成Android apk的编译打包</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/09/11/%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%86%99%E4%BA%86%E4%B8%80%E4%B8%AA%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BE%AE%E5%8D%9A%EF%BC%88%E4%B8%8D%E4%BD%BF%E7%94%A8%E5%AE%98%E6%96%B9SDK%EF%BC%89/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&text=用Python完成Android apk的编译打包"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&title=用Python完成Android apk的编译打包"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&is_video=false&description=用Python完成Android apk的编译打包"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=用Python完成Android apk的编译打包&body=Check out this article: http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&title=用Python完成Android apk的编译打包"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&title=用Python完成Android apk的编译打包"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&title=用Python完成Android apk的编译打包"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&title=用Python完成Android apk的编译打包"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&name=用Python完成Android apk的编译打包&description=&lt;h1 id=&#34;用-Python-完成-Android-apk-的编译打包&#34;&gt;&lt;a href=&#34;#用-Python-完成-Android-apk-的编译打包&#34; class=&#34;headerlink&#34; title=&#34;用 Python 完成 Android apk 的编译打包&#34;&gt;&lt;/a&gt;用 Python 完成 Android apk 的编译打包&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;Github地址：&lt;a href=&#34;https://github.com/Werb/AutoSecret&#34;&gt;https://github.com/Werb/AutoSecret&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;吐槽&#34;&gt;&lt;a href=&#34;#吐槽&#34; class=&#34;headerlink&#34; title=&#34;吐槽&#34;&gt;&lt;/a&gt;吐槽&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;其实当我写完之后，发现并没有什么卵用233&lt;/li&gt;
+&lt;li&gt;我最一开始想的是每一次在 Github 上发现好玩的 Android 应用，都要下载下来，然后 Gradle build 老半天，其中还要改一些参数，要是直接能装到手机上运行该多好&lt;/li&gt;
+&lt;li&gt;所以我就想，如果能写一个脚本，直接完成这些操作那就好了&lt;/li&gt;
+&lt;li&gt;虽然以前没接触过 Python ，但我知道这是一个很牛逼的语言啊，那就试着来写一写吧&lt;/li&gt;
+&lt;li&gt;实现的方法有很多，你可以用 java 或者直接 command-line , 但我就是想用 python&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;执行流程&#34;&gt;&lt;a href=&#34;#执行流程&#34; class=&#34;headerlink&#34; title=&#34;执行流程&#34;&gt;&lt;/a&gt;执行流程&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;从 Github 上拉代码（zip包）下来&lt;/li&gt;
+&lt;li&gt;解压 zip 包&lt;/li&gt;
+&lt;li&gt;Gradle build&lt;/li&gt;
+&lt;li&gt;adb install&lt;/li&gt;
+&lt;/ol&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8-Python-%E5%AE%8C%E6%88%90-Android-apk-%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85"><span class="toc-number">1.</span> <span class="toc-text">用 Python 完成 Android apk 的编译打包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%90%E6%A7%BD"><span class="toc-number">1.0.1.</span> <span class="toc-text">吐槽</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.0.2.</span> <span class="toc-text">执行流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.0.3.</span> <span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%93%AA%E4%BA%9B%E5%9D%91"><span class="toc-number">1.0.4.</span> <span class="toc-text">有哪些坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%A9%E4%B8%8B%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">1.0.5.</span> <span class="toc-text">剩下的代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E5%AE%9E%E8%BF%98%E6%98%AF%E6%9C%89%E6%94%B6%E8%8E%B7%E7%9A%84"><span class="toc-number">1.0.6.</span> <span class="toc-text">其实还是有收获的</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contact-Me"><span class="toc-number">1.1.</span> <span class="toc-text">Contact Me</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        用Python完成Android apk的编译打包
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Wanbo's Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-11-22T13:22:25.000Z" itemprop="datePublished">2016-11-22</time>
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Python/">Python</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Android/" rel="tag">Android</a>, <a class="tag-link-link" href="/tags/Gradle/" rel="tag">Gradle</a>, <a class="tag-link-link" href="/tags/%E6%89%93%E5%8C%85/" rel="tag">打包</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="用-Python-完成-Android-apk-的编译打包"><a href="#用-Python-完成-Android-apk-的编译打包" class="headerlink" title="用 Python 完成 Android apk 的编译打包"></a>用 Python 完成 Android apk 的编译打包</h1><ul>
+<li>Github地址：<a target="_blank" rel="noopener" href="https://github.com/Werb/AutoSecret">https://github.com/Werb/AutoSecret</a></li>
+</ul>
+<h3 id="吐槽"><a href="#吐槽" class="headerlink" title="吐槽"></a>吐槽</h3><ul>
+<li>其实当我写完之后，发现并没有什么卵用233</li>
+<li>我最一开始想的是每一次在 Github 上发现好玩的 Android 应用，都要下载下来，然后 Gradle build 老半天，其中还要改一些参数，要是直接能装到手机上运行该多好</li>
+<li>所以我就想，如果能写一个脚本，直接完成这些操作那就好了</li>
+<li>虽然以前没接触过 Python ，但我知道这是一个很牛逼的语言啊，那就试着来写一写吧</li>
+<li>实现的方法有很多，你可以用 java 或者直接 command-line , 但我就是想用 python</li>
+</ul>
+<h3 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h3><ol>
+<li>从 Github 上拉代码（zip包）下来</li>
+<li>解压 zip 包</li>
+<li>Gradle build</li>
+<li>adb install</li>
+</ol>
+<span id="more"></span>
+
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[app]</span><br><span class="line">sdk_dir = /Users/admin/Wanbo/code/android/sdk</span><br><span class="line">git_download_name = Werb/GankWithZhihu</span><br><span class="line">assembleRelease = False</span><br><span class="line"></span><br><span class="line">[dir]</span><br><span class="line">base_file_dir = /Users/admin/Desktop</span><br><span class="line">adb_dir =  /Users/admin/Werb/code/android/sdk/platform-tools/adb</span><br><span class="line">gradle_dir = /users/admin/werb/code/gradle-2.14.1/bin</span><br><span class="line">dir_name = AutoSecret</span><br><span class="line">code_dir_name = SourceCode</span><br><span class="line">apk_dir_name = Apk</span><br><span class="line">code_zip_name = GankWithZhihu</span><br></pre></td></tr></table></figure>
+<p>在 auto.config 你要填</p>
+<ol>
+<li>sdk 路径</li>
+<li>Gradle 路径</li>
+<li>adb 路径</li>
+<li>要下载的仓库名称</li>
+<li>下载到本地的路径</li>
+</ol>
+<p>然后跑脚本就可以啦</p>
+<p>是不是觉得很麻烦？ 我也是这样觉得的…但自己挖的坑…我不跳谁跳…</p>
+<h3 id="有哪些坑"><a href="#有哪些坑" class="headerlink" title="有哪些坑"></a>有哪些坑</h3><ul>
+<li>如果 Gradle 和 abd 都是全局的，配置到环境变量里的话，就不用设置路径的，直接执行就好</li>
+<li>如果项目中 buildToolsVersion 你本地没有的话，脚本是执行不成功的，所以你最好各个版本下载全</li>
+<li>所以写完之后我发现这真的没什么卵用</li>
+</ul>
+<h3 id="剩下的代码"><a href="#剩下的代码" class="headerlink" title="剩下的代码"></a>剩下的代码</h3> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment"># !/user/bin.env python3</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1.配置阶段</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> zipfile</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">  <span class="keyword">import</span> configparser</span><br><span class="line"><span class="keyword">except</span> ImportError:</span><br><span class="line">  <span class="keyword">import</span> ConfigParser</span><br><span class="line"></span><br><span class="line">Auto_config_path = os.path.dirname(__file__) + <span class="string">&#x27;/auto.config&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">  cf = configparser.ConfigParser()</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;python3&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">  cf = ConfigParser.ConfigParser()</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;python2&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取配置文件</span></span><br><span class="line">cf.read(Auto_config_path)</span><br><span class="line"></span><br><span class="line">sdk_dir = cf.get(<span class="string">&#x27;app&#x27;</span>, <span class="string">&#x27;sdk_dir&#x27;</span>)</span><br><span class="line">git_download_name = cf.get(<span class="string">&#x27;app&#x27;</span>, <span class="string">&#x27;git_download_name&#x27;</span>)</span><br><span class="line">assembleRelease = cf.getboolean(<span class="string">&#x27;app&#x27;</span>, <span class="string">&#x27;assembleRelease&#x27;</span>)</span><br><span class="line">git_download_url = <span class="string">&#x27;https://codeload.github.com/&#x27;</span> + git_download_name + <span class="string">&#x27;/zip/master&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置目录</span></span><br><span class="line">base_file_dir = cf.get(<span class="string">&#x27;dir&#x27;</span>, <span class="string">&#x27;base_file_dir&#x27;</span>)</span><br><span class="line">dir_name = cf.get(<span class="string">&#x27;dir&#x27;</span>, <span class="string">&#x27;dir_name&#x27;</span>)</span><br><span class="line">code_dir_name = cf.get(<span class="string">&#x27;dir&#x27;</span>, <span class="string">&#x27;code_dir_name&#x27;</span>)</span><br><span class="line">apk_dir_name = cf.get(<span class="string">&#x27;dir&#x27;</span>, <span class="string">&#x27;apk_dir_name&#x27;</span>)</span><br><span class="line">code_zip_name = cf.get(<span class="string">&#x27;dir&#x27;</span>, <span class="string">&#x27;code_zip_name&#x27;</span>) + <span class="string">&quot;.zip&quot;</span></span><br><span class="line">adb_dir = cf.get(<span class="string">&#x27;dir&#x27;</span>, <span class="string">&#x27;adb_dir&#x27;</span>)</span><br><span class="line">gradle_dir = cf.get(<span class="string">&#x27;dir&#x27;</span>, <span class="string">&#x27;gradle_dir&#x27;</span>)</span><br><span class="line"></span><br><span class="line">file_dir = base_file_dir + <span class="string">&#x27;/&#x27;</span> + dir_name</span><br><span class="line">code_dir = file_dir + <span class="string">&#x27;/&#x27;</span> + code_dir_name</span><br><span class="line">apk_dir = file_dir + <span class="string">&quot;/&quot;</span> + apk_dir_name</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.下载源码</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载zip源码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(file_dir):</span><br><span class="line">  os.mkdir(file_dir)</span><br><span class="line">os.chdir(file_dir)</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(code_dir):</span><br><span class="line">  os.mkdir(code_dir)</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(apk_dir):</span><br><span class="line">  os.mkdir(apk_dir)</span><br><span class="line">os.chdir(code_dir)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cleanFile</span>(<span class="params">targetDir</span>):</span><br><span class="line">  <span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(targetDir):</span><br><span class="line">      targetFile = os.path.join(targetDir, file)</span><br><span class="line">      <span class="keyword">if</span> os.path.isfile(targetFile):</span><br><span class="line">          os.remove(targetFile)</span><br><span class="line"></span><br><span class="line">cleanFile(code_dir)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;下载地址: &#x27;</span> + git_download_url)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;下载中...&#x27;</span>)</span><br><span class="line">response = requests.get(git_download_url)</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(code_zip_name, <span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> code:</span><br><span class="line">  code.write(response.content)</span><br><span class="line"><span class="built_in">print</span>(response.status_code)</span><br><span class="line"><span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;下载完成！&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;下载失败！&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压zip包</span></span><br><span class="line">z = zipfile.ZipFile(code_zip_name, <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">zip_name = z.namelist()[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">  <span class="keyword">for</span> file <span class="keyword">in</span> z.namelist():</span><br><span class="line">      z.extract(file, code_dir)</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;解压完成！&#x27;</span>)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;解压失败！&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成local.properties文件</span></span><br><span class="line">code_dir = code_dir + <span class="string">&quot;/&quot;</span> + zip_name</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">createLocalPropertiesFile</span>(<span class="params">sourceDir,fileName,root_sdk_dir</span>):</span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(sourceDir):</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">  fileDir = sourceDir + <span class="string">&#x27;/&#x27;</span> + fileName</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> os.path.exists(fileDir):</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">  f = <span class="built_in">open</span>(fileDir, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line">  f.write(<span class="string">&#x27;sdk.dir=&#x27;</span> + root_sdk_dir)</span><br><span class="line">  f.close()</span><br><span class="line"></span><br><span class="line">createLocalPropertiesFile(code_dir, <span class="string">&#x27;local.properties&#x27;</span>,  sdk_dir)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 打包</span></span><br><span class="line"></span><br><span class="line">os.chdir(code_dir)</span><br><span class="line"><span class="comment"># os.system(&#x27;chmod 777 gradlew&#x27;)</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;gradle clean&#x27;</span>)</span><br><span class="line">os.system(gradle_dir + <span class="string">&#x27; clean&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;gradle assemble, generate apk&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> assembleRelease:</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;assembleRelease apk&#x27;</span>)</span><br><span class="line">  os.system(gradle_dir + <span class="string">&#x27; assembleRelease&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&#x27;assembleDebug apk&#x27;</span>)</span><br><span class="line">  os.system(gradle_dir + <span class="string">&#x27; assembleDebug&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Generate apk finish!&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 复制apk</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">moveApk</span>(<span class="params">sourceDir,  targetDir</span>):</span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(sourceDir):</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(sourceDir):</span><br><span class="line">       sourceFile = os.path.join(sourceDir,  file)</span><br><span class="line">       targetFile = os.path.join(targetDir,  file)</span><br><span class="line">       <span class="keyword">if</span> os.path.isfile(sourceFile) <span class="keyword">and</span> (<span class="string">&#x27;unaligned&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> os.path.basename(sourceFile)):</span><br><span class="line">           <span class="built_in">open</span>(targetFile, <span class="string">&quot;wb&quot;</span>).write(<span class="built_in">open</span>(sourceFile, <span class="string">&quot;rb&quot;</span>).read())</span><br><span class="line"></span><br><span class="line">source_apk_dir = code_dir + <span class="string">&#x27;/&#x27;</span> + <span class="string">&#x27;app/build/outputs/apk&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> os.path.exists(source_apk_dir):</span><br><span class="line">  moveApk(source_apk_dir, apk_dir)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;apk 复制成功！&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装apk</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;abd install&#x27;</span>)</span><br><span class="line">os.system(adb_dir + <span class="string">&#x27; install &#x27;</span> + apk_dir + <span class="string">&quot;/app-debug.apk&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;安装成功！&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="其实还是有收获的"><a href="#其实还是有收获的" class="headerlink" title="其实还是有收获的"></a>其实还是有收获的</h3><ul>
+<li>这一次真的很系统的知道了 Android 应用是如何通过 Gradle 来完成打包的</li>
+<li>Python 初体验，真的是一个很炫酷的语言，同样功能简直比用 Java 来写少了N倍代码</li>
+<li>很多轮子之所以造出来，就是因为某一个程序员很懒，我为什么要重复做这些事情，干脆造一个轮子只写一遍算了</li>
+<li>当然我这个不算轮子，只是单纯的想写一写</li>
+<li>接下来用 Python 写一个多渠道打包的脚本，这个还是有点用的</li>
+<li>如果你看到了这里，那就去给一个 star 呀</li>
+</ul>
+<h2 id="Contact-Me"><a href="#Contact-Me" class="headerlink" title="Contact Me"></a>Contact Me</h2><ul>
+<li>Email：<a href="mailto:&#x31;&#x30;&#50;&#x35;&#x30;&#48;&#52;&#54;&#x38;&#48;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;">&#x31;&#x30;&#50;&#x35;&#x30;&#48;&#52;&#54;&#x38;&#48;&#x40;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;</a></li>
+<li>Weib：<a target="_blank" rel="noopener" href="http://weibo.com/singerwannber">UMR80</a></li>
+<li>GitHub:<a target="_blank" rel="noopener" href="https://github.com/Werb">Werb</a></li>
+<li>Blog：<a target="_blank" rel="noopener" href="http://werb.github.io/">Werb’s Blog</a></li>
+<li>Stackoverflow：<a target="_blank" rel="noopener" href="http://stackoverflow.com/users/6596737/werb?tab=profile">Werb</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8-Python-%E5%AE%8C%E6%88%90-Android-apk-%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85"><span class="toc-number">1.</span> <span class="toc-text">用 Python 完成 Android apk 的编译打包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%90%E6%A7%BD"><span class="toc-number">1.0.1.</span> <span class="toc-text">吐槽</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.0.2.</span> <span class="toc-text">执行流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.0.3.</span> <span class="toc-text">使用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%93%AA%E4%BA%9B%E5%9D%91"><span class="toc-number">1.0.4.</span> <span class="toc-text">有哪些坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%A9%E4%B8%8B%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">1.0.5.</span> <span class="toc-text">剩下的代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E5%AE%9E%E8%BF%98%E6%98%AF%E6%9C%89%E6%94%B6%E8%8E%B7%E7%9A%84"><span class="toc-number">1.0.6.</span> <span class="toc-text">其实还是有收获的</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contact-Me"><span class="toc-number">1.1.</span> <span class="toc-text">Contact Me</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&text=用Python完成Android apk的编译打包"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&title=用Python完成Android apk的编译打包"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&is_video=false&description=用Python完成Android apk的编译打包"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=用Python完成Android apk的编译打包&body=Check out this article: http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&title=用Python完成Android apk的编译打包"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&title=用Python完成Android apk的编译打包"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&title=用Python完成Android apk的编译打包"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&title=用Python完成Android apk的编译打包"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/&name=用Python完成Android apk的编译打包&description=&lt;h1 id=&#34;用-Python-完成-Android-apk-的编译打包&#34;&gt;&lt;a href=&#34;#用-Python-完成-Android-apk-的编译打包&#34; class=&#34;headerlink&#34; title=&#34;用 Python 完成 Android apk 的编译打包&#34;&gt;&lt;/a&gt;用 Python 完成 Android apk 的编译打包&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;Github地址：&lt;a href=&#34;https://github.com/Werb/AutoSecret&#34;&gt;https://github.com/Werb/AutoSecret&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;吐槽&#34;&gt;&lt;a href=&#34;#吐槽&#34; class=&#34;headerlink&#34; title=&#34;吐槽&#34;&gt;&lt;/a&gt;吐槽&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;其实当我写完之后，发现并没有什么卵用233&lt;/li&gt;
+&lt;li&gt;我最一开始想的是每一次在 Github 上发现好玩的 Android 应用，都要下载下来，然后 Gradle build 老半天，其中还要改一些参数，要是直接能装到手机上运行该多好&lt;/li&gt;
+&lt;li&gt;所以我就想，如果能写一个脚本，直接完成这些操作那就好了&lt;/li&gt;
+&lt;li&gt;虽然以前没接触过 Python ，但我知道这是一个很牛逼的语言啊，那就试着来写一写吧&lt;/li&gt;
+&lt;li&gt;实现的方法有很多，你可以用 java 或者直接 command-line , 但我就是想用 python&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;执行流程&#34;&gt;&lt;a href=&#34;#执行流程&#34; class=&#34;headerlink&#34; title=&#34;执行流程&#34;&gt;&lt;/a&gt;执行流程&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;从 Github 上拉代码（zip包）下来&lt;/li&gt;
+&lt;li&gt;解压 zip 包&lt;/li&gt;
+&lt;li&gt;Gradle build&lt;/li&gt;
+&lt;li&gt;adb install&lt;/li&gt;
+&lt;/ol&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2023 Wanbo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

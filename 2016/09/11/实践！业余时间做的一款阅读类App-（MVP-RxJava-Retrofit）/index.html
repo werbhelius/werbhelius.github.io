@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit） 整体项目基于 MVP + RxJava + Retrofit 通过 Retrofit 实现了无网缓存 基于 MVP 模式对 Activity 和 Fragment 封装了两个基类，同样适用于非 MVP 的实现。 运用 RecyclerView 加载了多种复杂布局 用到了一些很棒的第三方库 GitHub 项目地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）">
+<meta property="og:url" content="http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/index.html">
+<meta property="og:site_name" content="Wanbo&#39;s Blog">
+<meta property="og:description" content="实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit） 整体项目基于 MVP + RxJava + Retrofit 通过 Retrofit 实现了无网缓存 基于 MVP 模式对 Activity 和 Fragment 封装了两个基类，同样适用于非 MVP 的实现。 运用 RecyclerView 加载了多种复杂布局 用到了一些很棒的第三方库 GitHub 项目地址">
+<meta property="og:locale">
+<meta property="og:image" content="https://raw.githubusercontent.com/Werb/GankWithZhihu/master/screenshots/splash.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Werb/GankWithZhihu/master/screenshots/zhigan.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Werb/GankWithZhihu/master/screenshots/maindetail.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Werb/GankWithZhihu/master/screenshots/aboutme.png">
+<meta property="article:published_time" content="2016-09-11T11:33:18.000Z">
+<meta property="article:modified_time" content="2020-12-18T08:04:55.314Z">
+<meta property="article:author" content="Wanbo">
+<meta property="article:tag" content="项目实战">
+<meta property="article:tag" content="MVP + RxJava + Retrofit">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Werb/GankWithZhihu/master/screenshots/splash.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/09/11/%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%86%99%E4%BA%86%E4%B8%80%E4%B8%AA%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BE%AE%E5%8D%9A%EF%BC%88%E4%B8%8D%E4%BD%BF%E7%94%A8%E5%AE%98%E6%96%B9SDK%EF%BC%89/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/09/05/%E5%B9%B2%E8%B4%A7%EF%BC%81%E6%88%91%E5%BC%80%E5%8F%91-Android-%E6%98%AF%E5%A6%82%E4%BD%95%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E7%9A%84/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&text=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&title=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&is_video=false&description=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）&body=Check out this article: http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&title=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&title=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&title=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&title=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&name=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）&description=&lt;h1 id=&#34;实践！业余时间做的一款阅读类App-（MVP-RxJava-Retrofit）&#34;&gt;&lt;a href=&#34;#实践！业余时间做的一款阅读类App-（MVP-RxJava-Retrofit）&#34; class=&#34;headerlink&#34; title=&#34;实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）&#34;&gt;&lt;/a&gt;实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;整体项目基于 MVP + RxJava + Retrofit&lt;/li&gt;
+&lt;li&gt;通过 Retrofit 实现了无网缓存&lt;/li&gt;
+&lt;li&gt;基于 MVP 模式对 Activity 和 Fragment 封装了两个基类，同样适用于非 MVP 的实现。&lt;/li&gt;
+&lt;li&gt;运用 RecyclerView 加载了多种复杂布局&lt;/li&gt;
+&lt;li&gt;用到了一些很棒的第三方库&lt;/li&gt;
+&lt;li&gt;GitHub 项目地址 : &lt;a href=&#34;https://github.com/Werb/GankWithZhihu&#34;&gt;https://github.com/Werb/GankWithZhihu&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AA%E5%B1%8F"><span class="toc-number">1.0.1.</span> <span class="toc-text">闪屏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E7%95%8C%E9%9D%A2"><span class="toc-number">1.0.2.</span> <span class="toc-text">主界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E5%9C%B0%E6%96%B9"><span class="toc-number">1.0.3.</span> <span class="toc-text">一些有意思的地方</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%88%E9%AB%98%E5%85%B4%E4%BD%A0%E7%9C%8B%E5%88%B0%E8%BF%99%E9%87%8C"><span class="toc-number">1.0.4.</span> <span class="toc-text">很高兴你看到这里</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#License"><span class="toc-number">1.0.5.</span> <span class="toc-text">License</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contact-Me"><span class="toc-number">1.0.6.</span> <span class="toc-text">Contact Me</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Wanbo's Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-09-11T11:33:18.000Z" itemprop="datePublished">2016-09-11</time>
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/MVP-RxJava-Retrofit/" rel="tag">MVP + RxJava + Retrofit</a>, <a class="tag-link-link" href="/tags/%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/" rel="tag">项目实战</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="实践！业余时间做的一款阅读类App-（MVP-RxJava-Retrofit）"><a href="#实践！业余时间做的一款阅读类App-（MVP-RxJava-Retrofit）" class="headerlink" title="实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"></a>实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）</h1><ul>
+<li>整体项目基于 MVP + RxJava + Retrofit</li>
+<li>通过 Retrofit 实现了无网缓存</li>
+<li>基于 MVP 模式对 Activity 和 Fragment 封装了两个基类，同样适用于非 MVP 的实现。</li>
+<li>运用 RecyclerView 加载了多种复杂布局</li>
+<li>用到了一些很棒的第三方库</li>
+<li>GitHub 项目地址 : <a target="_blank" rel="noopener" href="https://github.com/Werb/GankWithZhihu">https://github.com/Werb/GankWithZhihu</a></li>
+</ul>
+<span id="more"></span>
+
+
+<h3 id="闪屏"><a href="#闪屏" class="headerlink" title="闪屏"></a>闪屏</h3><ul>
+<li>实现了类似于 Twitter 的闪屏动画，中间的小太阳可以扩大到中心，进入主界面</li>
+<li>闪屏中的字体叫做 old English , 纽约时报专用字体</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Werb/GankWithZhihu/master/screenshots/splash.png" alt="splash"></p>
+<h3 id="主界面"><a href="#主界面" class="headerlink" title="主界面"></a>主界面</h3><ul>
+<li>汇集了知乎日报，干货集中营，以及好奇心日报，三种不同风格的阅读体验</li>
+<li>知乎日报 API 取自<a target="_blank" rel="noopener" href="https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90">ZhihuDailyPurify</a></li>
+<li>干货集中营 API 取自<a target="_blank" rel="noopener" href="http://gank.io/api">gank.io</a></li>
+<li>好奇心日报 API 是自己爬取所得，后续会整理到 GitHub 上</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Werb/GankWithZhihu/master/screenshots/zhigan.png" alt="main"></p>
+<h3 id="一些有意思的地方"><a href="#一些有意思的地方" class="headerlink" title="一些有意思的地方"></a>一些有意思的地方</h3><ul>
+<li>知乎日报的详细详细界面，不是采用 webView 加载 url路径实现的，而是根据 api 返回的 html 标签代码，拼接 Css 和 JS 实现的，很有意思，我分析知乎这样做的原因，应该是为了实现在无网状态下，同样可以保持阅读体验</li>
+<li>各种APi返回的数据格式都很复杂，特别是好奇心日报，不单单是list集合，所以在项目中，使用 RecyclerView 加载了很多复杂布局，特别是实现了如何根据数据来判断布局的加载</li>
+<li>从开始学习到第一次使用 MVP + RxJava + Retrofit 开发项目，真正体会到了它的方便与强大之处</li>
+<li>项目中，有很多代码是可以重复利用的，为了更好的体会 MVP 思想，我目前还没有重构，后续会根据功能进行优化</li>
+<li>目前对内存优化问题，我控制的不是很好，如果有在这方面有经验很擅长的同学，希望可以联系我</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Werb/GankWithZhihu/master/screenshots/maindetail.png" alt="detail"></p>
+<h3 id="很高兴你看到这里"><a href="#很高兴你看到这里" class="headerlink" title="很高兴你看到这里"></a>很高兴你看到这里</h3><blockquote>
+<p>有时候啊   你总是在追赶前面的人</p>
+</blockquote>
+<blockquote>
+<p>总是抱怨自己为什么不能再努力一点   </p>
+</blockquote>
+<blockquote>
+<p>累了你可以停下来   看看原来的自己   </p>
+</blockquote>
+<blockquote>
+<p>其实你已经很了不起了。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/Werb/GankWithZhihu/master/screenshots/aboutme.png" alt="aboutme"></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://werb.github.io/2016/09/11/%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%86%99%E4%BA%86%E4%B8%80%E4%B8%AA%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BE%AE%E5%8D%9A%EF%BC%88%E4%B8%8D%E4%BD%BF%E7%94%A8%E5%AE%98%E6%96%B9SDK%EF%BC%89/">业余时间写了一个第三方微博（不使用官方SDK）</a></li>
+<li>GitHub 项目地址 : <a target="_blank" rel="noopener" href="https://github.com/Werb/Werb">https://github.com/Werb/Werb</a></li>
+<li>欢迎 Star 和 Fork</li>
+</ul>
+<h3 id="License"><a href="#License" class="headerlink" title="License"></a>License</h3><ul>
+<li><p>感谢开源项目 <a target="_blank" rel="noopener" href="https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90">ZhihuDailyPurify</a></p>
+</li>
+<li><p>感谢 <a target="_blank" rel="noopener" href="http://gank.io/api">gank.io</a></p>
+</li>
+<li><p>感谢 <a target="_blank" rel="noopener" href="https://github.com/drakeet/Meizhi">MeiZhi</a></p>
+</li>
+<li><p>同时希望可以帮助到其他人</p>
+</li>
+<li><p>项目中用到的 api 所有权归 知乎，gank.io，好奇心日报所有，本项目仅是用来学习使用</p>
+<p>  Copyright 2016 Werb</p>
+<p>  Licensed under the Apache License, Version 2.0 (the “License”);<br>  you may not use this file except in compliance with the License.<br>  You may obtain a copy of the License at</p>
+<p>  <a target="_blank" rel="noopener" href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+<p>  Unless required by applicable law or agreed to in writing, software<br>  distributed under the License is distributed on an “AS IS” BASIS,<br>  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br>  See the License for the specific language governing permissions and<br>  limitations under the License.</p>
+</li>
+</ul>
+<h3 id="Contact-Me"><a href="#Contact-Me" class="headerlink" title="Contact Me"></a>Contact Me</h3><ul>
+<li>Email: <a href="mailto:&#49;&#x30;&#50;&#x35;&#x30;&#x30;&#x34;&#x36;&#56;&#x30;&#x40;&#113;&#x71;&#x2e;&#x63;&#111;&#109;">&#49;&#x30;&#50;&#x35;&#x30;&#x30;&#x34;&#x36;&#56;&#x30;&#x40;&#113;&#x71;&#x2e;&#x63;&#111;&#109;</a></li>
+<li>Blog : <a target="_blank" rel="noopener" href="http://werb.github.io/">Werb’s blog</a></li>
+<li>Weibo: <a target="_blank" rel="noopener" href="http://weibo.com/singerwannber">UMR80</a></li>
+<li>GitHub: <a target="_blank" rel="noopener" href="https://github.com/Werb">Werb</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%AA%E5%B1%8F"><span class="toc-number">1.0.1.</span> <span class="toc-text">闪屏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E7%95%8C%E9%9D%A2"><span class="toc-number">1.0.2.</span> <span class="toc-text">主界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E5%9C%B0%E6%96%B9"><span class="toc-number">1.0.3.</span> <span class="toc-text">一些有意思的地方</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%88%E9%AB%98%E5%85%B4%E4%BD%A0%E7%9C%8B%E5%88%B0%E8%BF%99%E9%87%8C"><span class="toc-number">1.0.4.</span> <span class="toc-text">很高兴你看到这里</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#License"><span class="toc-number">1.0.5.</span> <span class="toc-text">License</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contact-Me"><span class="toc-number">1.0.6.</span> <span class="toc-text">Contact Me</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&text=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&title=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&is_video=false&description=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）&body=Check out this article: http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&title=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&title=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&title=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&title=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2016/09/11/%E5%AE%9E%E8%B7%B5%EF%BC%81%E4%B8%9A%E4%BD%99%E6%97%B6%E9%97%B4%E5%81%9A%E7%9A%84%E4%B8%80%E6%AC%BE%E9%98%85%E8%AF%BB%E7%B1%BBApp-%EF%BC%88MVP-RxJava-Retrofit%EF%BC%89/&name=实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）&description=&lt;h1 id=&#34;实践！业余时间做的一款阅读类App-（MVP-RxJava-Retrofit）&#34;&gt;&lt;a href=&#34;#实践！业余时间做的一款阅读类App-（MVP-RxJava-Retrofit）&#34; class=&#34;headerlink&#34; title=&#34;实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）&#34;&gt;&lt;/a&gt;实践！业余时间做的一款阅读类App （MVP + RxJava + Retrofit）&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;整体项目基于 MVP + RxJava + Retrofit&lt;/li&gt;
+&lt;li&gt;通过 Retrofit 实现了无网缓存&lt;/li&gt;
+&lt;li&gt;基于 MVP 模式对 Activity 和 Fragment 封装了两个基类，同样适用于非 MVP 的实现。&lt;/li&gt;
+&lt;li&gt;运用 RecyclerView 加载了多种复杂布局&lt;/li&gt;
+&lt;li&gt;用到了一些很棒的第三方库&lt;/li&gt;
+&lt;li&gt;GitHub 项目地址 : &lt;a href=&#34;https://github.com/Werb/GankWithZhihu&#34;&gt;https://github.com/Werb/GankWithZhihu&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2023 Wanbo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

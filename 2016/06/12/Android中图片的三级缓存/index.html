@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Android中图片的三级缓存为什么要使用三级缓存 如今的 Android App 经常会需要网络交互，通过网络获取图片是再正常不过的事了 假如每次启动的时候都从网络拉取图片的话，势必会消耗很多流量。在当前的状况下，对于非wifi用户来说，流量还是很贵的，一个很耗流量的应用，其用户数量级肯定要受到影响 特别是，当我们想要重复浏览一些图片时，如果每一次浏览都需要通过网络获取，流量的浪费可想而知 所以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android中图片的三级缓存">
+<meta property="og:url" content="http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/index.html">
+<meta property="og:site_name" content="Wanbo&#39;s Blog">
+<meta property="og:description" content="Android中图片的三级缓存为什么要使用三级缓存 如今的 Android App 经常会需要网络交互，通过网络获取图片是再正常不过的事了 假如每次启动的时候都从网络拉取图片的话，势必会消耗很多流量。在当前的状况下，对于非wifi用户来说，流量还是很贵的，一个很耗流量的应用，其用户数量级肯定要受到影响 特别是，当我们想要重复浏览一些图片时，如果每一次浏览都需要通过网络获取，流量的浪费可想而知 所以">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-06-12T10:43:33.000Z">
+<meta property="article:modified_time" content="2020-12-18T08:04:46.907Z">
+<meta property="article:author" content="Wanbo">
+<meta property="article:tag" content="三级缓存">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Android中图片的三级缓存</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/06/12/%E5%85%B3%E4%BA%8EAndroid6-0%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AE%E9%97%AE%E9%A2%98/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&text=Android中图片的三级缓存"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&title=Android中图片的三级缓存"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&is_video=false&description=Android中图片的三级缓存"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Android中图片的三级缓存&body=Check out this article: http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&title=Android中图片的三级缓存"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&title=Android中图片的三级缓存"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&title=Android中图片的三级缓存"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&title=Android中图片的三级缓存"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&name=Android中图片的三级缓存&description=&lt;h1 id=&#34;Android中图片的三级缓存&#34;&gt;&lt;a href=&#34;#Android中图片的三级缓存&#34; class=&#34;headerlink&#34; title=&#34;Android中图片的三级缓存&#34;&gt;&lt;/a&gt;Android中图片的三级缓存&lt;/h1&gt;&lt;h2 id=&#34;为什么要使用三级缓存&#34;&gt;&lt;a href=&#34;#为什么要使用三级缓存&#34; class=&#34;headerlink&#34; title=&#34;为什么要使用三级缓存&#34;&gt;&lt;/a&gt;为什么要使用三级缓存&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;如今的 Android App 经常会需要网络交互，通过网络获取图片是再正常不过的事了&lt;/li&gt;
+&lt;li&gt;假如每次启动的时候都从网络拉取图片的话，势必会消耗很多流量。在当前的状况下，对于非wifi用户来说，流量还是很贵的，一个很耗流量的应用，其用户数量级肯定要受到影响&lt;/li&gt;
+&lt;li&gt;特别是，当我们想要重复浏览一些图片时，如果每一次浏览都需要通过网络获取，流量的浪费可想而知&lt;/li&gt;
+&lt;li&gt;所以提出三级缓存策略，通过网络、本地、内存三级缓存图片，来减少不必要的网络交互，避免浪费流量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;什么是三级缓存&#34;&gt;&lt;a href=&#34;#什么是三级缓存&#34; class=&#34;headerlink&#34; title=&#34;什么是三级缓存&#34;&gt;&lt;/a&gt;什么是三级缓存&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;网络缓存, 不优先加载, 速度慢,浪费流量&lt;/li&gt;
+&lt;li&gt;本地缓存, 次优先加载, 速度快&lt;/li&gt;
+&lt;li&gt;内存缓存, 优先加载, 速度最快&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;三级缓存原理&#34;&gt;&lt;a href=&#34;#三级缓存原理&#34; class=&#34;headerlink&#34; title=&#34;三级缓存原理&#34;&gt;&lt;/a&gt;三级缓存原理&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;首次加载 Android App 时，肯定要通过网络交互来获取图片，之后我们可以将图片保存至本地SD卡和内存中&lt;/li&gt;
+&lt;li&gt;之后运行 App 时，优先访问内存中的图片缓存，若内存中没有，则加载本地SD卡中的图片&lt;/li&gt;
+&lt;li&gt;总之，只在初次访问新内容时，才通过网络获取图片资源&lt;/li&gt;
+&lt;/ul&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="toc-number">1.</span> <span class="toc-text">Android中图片的三级缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="toc-number">1.1.</span> <span class="toc-text">为什么要使用三级缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="toc-number">1.2.</span> <span class="toc-text">什么是三级缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">三级缓存原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%8F%8A%E4%BB%A3%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">具体实现及代码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E5%9B%BE%E7%89%87%E7%BC%93%E5%AD%98%E5%B7%A5%E5%85%B7%E7%B1%BB%EF%BC%88MyBitmapUtils%EF%BC%89"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">1. 自定义的图片缓存工具类（MyBitmapUtils）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BD%91%E7%BB%9C%E7%BC%93%E5%AD%98%EF%BC%88NetCacheUtils%EF%BC%89"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">2. 网络缓存（NetCacheUtils）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98%EF%BC%88LocalCacheUtils%EF%BC%89"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">3. 本地缓存（LocalCacheUtils）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%86%85%E5%AD%98%E7%BC%93%E5%AD%98%EF%BC%88MemoryCacheUtils%EF%BC%89"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">4. 内存缓存（MemoryCacheUtils）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contact-Me"><span class="toc-number">1.4.1.</span> <span class="toc-text">Contact Me</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Android中图片的三级缓存
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Wanbo's Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-06-12T10:43:33.000Z" itemprop="datePublished">2016-06-12</time>
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/" rel="tag">三级缓存</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Android中图片的三级缓存"><a href="#Android中图片的三级缓存" class="headerlink" title="Android中图片的三级缓存"></a>Android中图片的三级缓存</h1><h2 id="为什么要使用三级缓存"><a href="#为什么要使用三级缓存" class="headerlink" title="为什么要使用三级缓存"></a>为什么要使用三级缓存</h2><ul>
+<li>如今的 Android App 经常会需要网络交互，通过网络获取图片是再正常不过的事了</li>
+<li>假如每次启动的时候都从网络拉取图片的话，势必会消耗很多流量。在当前的状况下，对于非wifi用户来说，流量还是很贵的，一个很耗流量的应用，其用户数量级肯定要受到影响</li>
+<li>特别是，当我们想要重复浏览一些图片时，如果每一次浏览都需要通过网络获取，流量的浪费可想而知</li>
+<li>所以提出三级缓存策略，通过网络、本地、内存三级缓存图片，来减少不必要的网络交互，避免浪费流量</li>
+</ul>
+<h2 id="什么是三级缓存"><a href="#什么是三级缓存" class="headerlink" title="什么是三级缓存"></a>什么是三级缓存</h2><ul>
+<li>网络缓存, 不优先加载, 速度慢,浪费流量</li>
+<li>本地缓存, 次优先加载, 速度快</li>
+<li>内存缓存, 优先加载, 速度最快</li>
+</ul>
+<h2 id="三级缓存原理"><a href="#三级缓存原理" class="headerlink" title="三级缓存原理"></a>三级缓存原理</h2><ul>
+<li>首次加载 Android App 时，肯定要通过网络交互来获取图片，之后我们可以将图片保存至本地SD卡和内存中</li>
+<li>之后运行 App 时，优先访问内存中的图片缓存，若内存中没有，则加载本地SD卡中的图片</li>
+<li>总之，只在初次访问新内容时，才通过网络获取图片资源</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="具体实现及代码"><a href="#具体实现及代码" class="headerlink" title="具体实现及代码"></a>具体实现及代码</h2><h4 id="1-自定义的图片缓存工具类（MyBitmapUtils）"><a href="#1-自定义的图片缓存工具类（MyBitmapUtils）" class="headerlink" title="1. 自定义的图片缓存工具类（MyBitmapUtils）"></a>1. 自定义的图片缓存工具类（MyBitmapUtils）</h4><ul>
+<li>通过 new MyBitmapUtils().display(ImageView ivPic, String url) 提供给外部方法进行图片缓存的接口</li>
+<li>参数含义：ivPic 用于显示图片的ImageView，url 获取图片的网络地址</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 自定义的BitmapUtils,实现三级缓存</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyBitmapUtils</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> NetCacheUtils mNetCacheUtils;</span><br><span class="line">    <span class="keyword">private</span> LocalCacheUtils mLocalCacheUtils;</span><br><span class="line">    <span class="keyword">private</span> MemoryCacheUtils mMemoryCacheUtils;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MyBitmapUtils</span><span class="params">()</span>&#123;</span><br><span class="line">        mMemoryCacheUtils=<span class="keyword">new</span> <span class="title class_">MemoryCacheUtils</span>();</span><br><span class="line">        mLocalCacheUtils=<span class="keyword">new</span> <span class="title class_">LocalCacheUtils</span>();</span><br><span class="line">        mNetCacheUtils=<span class="keyword">new</span> <span class="title class_">NetCacheUtils</span>(mLocalCacheUtils,mMemoryCacheUtils);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">disPlay</span><span class="params">(ImageView ivPic, String url)</span> &#123;</span><br><span class="line">        ivPic.setImageResource(R.mipmap.pic_item_list_default);</span><br><span class="line">        Bitmap bitmap;</span><br><span class="line">        <span class="comment">//内存缓存</span></span><br><span class="line">        bitmap=mMemoryCacheUtils.getBitmapFromMemory(url);</span><br><span class="line">        <span class="keyword">if</span> (bitmap!=<span class="literal">null</span>)&#123;</span><br><span class="line">            ivPic.setImageBitmap(bitmap);</span><br><span class="line">            System.out.println(<span class="string">&quot;从内存获取图片啦.....&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//本地缓存</span></span><br><span class="line">        bitmap = mLocalCacheUtils.getBitmapFromLocal(url);</span><br><span class="line">        <span class="keyword">if</span>(bitmap !=<span class="literal">null</span>)&#123;</span><br><span class="line">            ivPic.setImageBitmap(bitmap);</span><br><span class="line">            System.out.println(<span class="string">&quot;从本地获取图片啦.....&quot;</span>);</span><br><span class="line">            <span class="comment">//从本地获取图片后,保存至内存中</span></span><br><span class="line">            mMemoryCacheUtils.setBitmapToMemory(url,bitmap);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//网络缓存</span></span><br><span class="line">        mNetCacheUtils.getBitmapFromNet(ivPic,url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-网络缓存（NetCacheUtils）"><a href="#2-网络缓存（NetCacheUtils）" class="headerlink" title="2. 网络缓存（NetCacheUtils）"></a>2. 网络缓存（NetCacheUtils）</h4><ul>
+<li>网络缓存中主要用到了AsyncTask来进行异步数据的加载</li>
+<li>简单来说，AsyncTask可以看作是一个对handler和线程池的封装，通常，AsyncTask主要用于数据简单时，handler+thread主要用于数据量多且复杂时，当然这也不是必须的，仁者见仁智者见智</li>
+<li>同时，为了避免内存溢出的问题，我们可以在获取网络图片后。对其进行图片压缩</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 三级缓存之网络缓存</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">NetCacheUtils</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> LocalCacheUtils mLocalCacheUtils;</span><br><span class="line">    <span class="keyword">private</span> MemoryCacheUtils mMemoryCacheUtils;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">NetCacheUtils</span><span class="params">(LocalCacheUtils localCacheUtils, MemoryCacheUtils memoryCacheUtils)</span> &#123;</span><br><span class="line">        mLocalCacheUtils = localCacheUtils;</span><br><span class="line">        mMemoryCacheUtils = memoryCacheUtils;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 从网络下载图片</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> ivPic 显示图片的imageview</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> url   下载图片的网络地址</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">getBitmapFromNet</span><span class="params">(ImageView ivPic, String url)</span> &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">BitmapTask</span>().execute(ivPic, url);<span class="comment">//启动AsyncTask</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * AsyncTask就是对handler和线程池的封装</span></span><br><span class="line"><span class="comment">     * 第一个泛型:参数类型</span></span><br><span class="line"><span class="comment">     * 第二个泛型:更新进度的泛型</span></span><br><span class="line"><span class="comment">     * 第三个泛型:onPostExecute的返回结果</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">BitmapTask</span> <span class="keyword">extends</span> <span class="title class_">AsyncTask</span>&lt;Object, Void, Bitmap&gt; &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> ImageView ivPic;</span><br><span class="line">        <span class="keyword">private</span> String url;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 后台耗时操作,存在于子线程中</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> params</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">protected</span> Bitmap <span class="title function_">doInBackground</span><span class="params">(Object[] params)</span> &#123;</span><br><span class="line">            ivPic = (ImageView) params[<span class="number">0</span>];</span><br><span class="line">            url = (String) params[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> downLoadBitmap(url);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 更新进度,在主线程中</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> values</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onProgressUpdate</span><span class="params">(Void[] values)</span> &#123;</span><br><span class="line">            <span class="built_in">super</span>.onProgressUpdate(values);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 耗时方法结束后执行该方法,主线程中</span></span><br><span class="line"><span class="comment">         * <span class="doctag">@param</span> result</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onPostExecute</span><span class="params">(Bitmap result)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (result != <span class="literal">null</span>) &#123;</span><br><span class="line">                ivPic.setImageBitmap(result);</span><br><span class="line">                System.out.println(<span class="string">&quot;从网络缓存图片啦.....&quot;</span>);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//从网络获取图片后,保存至本地缓存</span></span><br><span class="line">                mLocalCacheUtils.setBitmapToLocal(url, result);</span><br><span class="line">                <span class="comment">//保存至内存中</span></span><br><span class="line">                mMemoryCacheUtils.setBitmapToMemory(url, result);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 网络下载图片</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> url</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> Bitmap <span class="title function_">downLoadBitmap</span><span class="params">(String url)</span> &#123;</span><br><span class="line">        <span class="type">HttpURLConnection</span> <span class="variable">conn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            conn = (HttpURLConnection) <span class="keyword">new</span> <span class="title class_">URL</span>(url).openConnection();</span><br><span class="line">            conn.setConnectTimeout(<span class="number">5000</span>);</span><br><span class="line">            conn.setReadTimeout(<span class="number">5000</span>);</span><br><span class="line">            conn.setRequestMethod(<span class="string">&quot;GET&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="type">int</span> <span class="variable">responseCode</span> <span class="operator">=</span> conn.getResponseCode();</span><br><span class="line">            <span class="keyword">if</span> (responseCode == <span class="number">200</span>) &#123;</span><br><span class="line">                <span class="comment">//图片压缩</span></span><br><span class="line">                BitmapFactory.<span class="type">Options</span> <span class="variable">options</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BitmapFactory</span>.Options();</span><br><span class="line">                options.inSampleSize=<span class="number">2</span>;<span class="comment">//宽高压缩为原来的1/2</span></span><br><span class="line">                options.inPreferredConfig=Bitmap.Config.ARGB_4444;</span><br><span class="line">                <span class="type">Bitmap</span> <span class="variable">bitmap</span> <span class="operator">=</span> BitmapFactory.decodeStream(conn.getInputStream(),<span class="literal">null</span>,options);</span><br><span class="line">                <span class="keyword">return</span> bitmap;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            conn.disconnect();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-本地缓存（LocalCacheUtils）"><a href="#3-本地缓存（LocalCacheUtils）" class="headerlink" title="3. 本地缓存（LocalCacheUtils）"></a>3. 本地缓存（LocalCacheUtils）</h4><ul>
+<li>在初次通过网络获取图片后，我们可以在本地SD卡中将图片保存起来</li>
+<li>可以使用MD5加密图片的网络地址，来作为图片的名称保存</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 三级缓存之本地缓存</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LocalCacheUtils</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String CACHE_PATH= Environment.getExternalStorageDirectory().getAbsolutePath()+<span class="string">&quot;/WerbNews&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 从本地读取图片</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> url</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> Bitmap <span class="title function_">getBitmapFromLocal</span><span class="params">(String url)</span>&#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> <span class="literal">null</span>;<span class="comment">//把图片的url当做文件名,并进行MD5加密</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            fileName = MD5Encoder.encode(url);</span><br><span class="line">            File file=<span class="keyword">new</span> <span class="title class_">File</span>(CACHE_PATH,fileName);</span><br><span class="line"></span><br><span class="line">            <span class="type">Bitmap</span> <span class="variable">bitmap</span> <span class="operator">=</span> BitmapFactory.decodeStream(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(file));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> bitmap;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 从网络获取图片后,保存至本地缓存</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> url</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bitmap</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setBitmapToLocal</span><span class="params">(String url,Bitmap bitmap)</span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> MD5Encoder.encode(url);<span class="comment">//把图片的url当做文件名,并进行MD5加密</span></span><br><span class="line">            File file=<span class="keyword">new</span> <span class="title class_">File</span>(CACHE_PATH,fileName);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//通过得到文件的父文件,判断父文件是否存在</span></span><br><span class="line">            <span class="type">File</span> <span class="variable">parentFile</span> <span class="operator">=</span> file.getParentFile();</span><br><span class="line">            <span class="keyword">if</span> (!parentFile.exists())&#123;</span><br><span class="line">                parentFile.mkdirs();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//把图片保存至本地</span></span><br><span class="line">            bitmap.compress(Bitmap.CompressFormat.JPEG,<span class="number">100</span>,<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(file));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-内存缓存（MemoryCacheUtils）"><a href="#4-内存缓存（MemoryCacheUtils）" class="headerlink" title="4. 内存缓存（MemoryCacheUtils）"></a>4. 内存缓存（MemoryCacheUtils）</h4><ul>
+<li>这是本文中最重要且需要重点介绍的部分</li>
+<li>进行内存缓存，就一定要注意一个问题，那就是内存溢出（OutOfMemory）</li>
+<li>为什么会造成内存溢出？<ul>
+<li><p>Android 虚拟机默认分配给每个App 16M的内存空间，真机会比16M大，但任会出现内存溢出的情况</p>
+</li>
+<li><p>Android 系统在加载图片时是解析每一个像素的信息，再把每一个像素全部保存至内存中</p>
+</li>
+<li><p>图片大小 &#x3D; 图片的总像素 * 每个像素占用的大小</p>
+<blockquote>
+<p>单色图：每个像素占用1&#x2F;8个字节，16色图：每个像素占用1&#x2F;2个字节，256色图：每个像素占用1个字节，24位图：每个像素占用3个字节（常见的rgb构成的图片）</p>
+</blockquote>
+</li>
+<li><p>例如一张1920x1080的JPG图片，在Android 系统中是以ARGB格式解析的，即一个像素需占用4个字节，图片的大小&#x3D;1920x1080x4&#x3D;7M</p>
+</li>
+</ul>
+</li>
+<li>实现方法：<ol>
+<li>通过  HashMap&lt;String,Bitmap&gt; 键值对的方式保存图片，key为地址，value为图片对象，但因是强引用对象，很容易造成内存溢出可以尝试SoftReference软引用对象</li>
+<li>通过 HashMap&lt;String, SoftReference<Bitmap>&gt; SoftReference 为软引用对象（GC垃圾回收会自动回收软引用对象），但在Android2.3+后，系统会优先考虑回收弱引用对象，官方提出使用LruCache</li>
+<li>通过 LruCache&lt;String,Bitmap&gt;  least recentlly use 最少最近使用算法会将内存控制在一定的大小内, 超出最大值时会自动回收, 这个最大值开发者自己定</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 三级缓存之内存缓存</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MemoryCacheUtils</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// private HashMap&lt;String,Bitmap&gt; mMemoryCache=new HashMap&lt;&gt;();//1.因为强引用,容易造成内存溢出，所以考虑使用下面弱引用的方法</span></span><br><span class="line">    <span class="comment">// private HashMap&lt;String, SoftReference&lt;Bitmap&gt;&gt; mMemoryCache = new HashMap&lt;&gt;();//2.因为在Android2.3+后,系统会优先考虑回收弱引用对象,官方提出使用LruCache</span></span><br><span class="line">    <span class="keyword">private</span> LruCache&lt;String,Bitmap&gt; mMemoryCache;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MemoryCacheUtils</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="type">long</span> <span class="variable">maxMemory</span> <span class="operator">=</span> Runtime.getRuntime().maxMemory()/<span class="number">8</span>;<span class="comment">//得到手机最大允许内存的1/8,即超过指定内存,则开始回收</span></span><br><span class="line">        <span class="comment">//需要传入允许的内存最大值,虚拟机默认内存16M,真机不一定相同</span></span><br><span class="line">        mMemoryCache=<span class="keyword">new</span> <span class="title class_">LruCache</span>&lt;String,Bitmap&gt;((<span class="type">int</span>) maxMemory)&#123;</span><br><span class="line">            <span class="comment">//用于计算每个条目的大小</span></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">protected</span> <span class="type">int</span> <span class="title function_">sizeOf</span><span class="params">(String key, Bitmap value)</span> &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">byteCount</span> <span class="operator">=</span> value.getByteCount();</span><br><span class="line">                <span class="keyword">return</span> byteCount;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 从内存中读图片</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> url</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> Bitmap <span class="title function_">getBitmapFromMemory</span><span class="params">(String url)</span> &#123;</span><br><span class="line">        <span class="comment">//Bitmap bitmap = mMemoryCache.get(url);//1.强引用方法</span></span><br><span class="line">        <span class="comment">/*2.弱引用方法</span></span><br><span class="line"><span class="comment">        SoftReference&lt;Bitmap&gt; bitmapSoftReference = mMemoryCache.get(url);</span></span><br><span class="line"><span class="comment">        if (bitmapSoftReference != null) &#123;</span></span><br><span class="line"><span class="comment">            Bitmap bitmap = bitmapSoftReference.get();</span></span><br><span class="line"><span class="comment">            return bitmap;</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="type">Bitmap</span> <span class="variable">bitmap</span> <span class="operator">=</span> mMemoryCache.get(url);</span><br><span class="line">        <span class="keyword">return</span> bitmap;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 往内存中写图片</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> url</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> bitmap</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setBitmapToMemory</span><span class="params">(String url, Bitmap bitmap)</span> &#123;</span><br><span class="line">        <span class="comment">//mMemoryCache.put(url, bitmap);//1.强引用方法</span></span><br><span class="line">        <span class="comment">/*2.弱引用方法</span></span><br><span class="line"><span class="comment">        mMemoryCache.put(url, new SoftReference&lt;&gt;(bitmap));</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        mMemoryCache.put(url,bitmap);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Contact-Me"><a href="#Contact-Me" class="headerlink" title="Contact Me"></a>Contact Me</h3><ul>
+<li>Email: <a href="mailto:&#49;&#48;&#50;&#x35;&#48;&#x30;&#52;&#x36;&#56;&#x30;&#64;&#x71;&#113;&#x2e;&#99;&#x6f;&#x6d;">&#49;&#48;&#50;&#x35;&#48;&#x30;&#52;&#x36;&#56;&#x30;&#64;&#x71;&#113;&#x2e;&#99;&#x6f;&#x6d;</a></li>
+<li>Weibo: <a target="_blank" rel="noopener" href="http://weibo.com/singerwannber">UMR80</a></li>
+<li>GitHub: <a target="_blank" rel="noopener" href="https://github.com/Werb/MyCalendarDemo">Werb</a></li>
+<li>Blog：<a target="_blank" rel="noopener" href="http://werb.github.io/">Werb’s Blog</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="toc-number">1.</span> <span class="toc-text">Android中图片的三级缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="toc-number">1.1.</span> <span class="toc-text">为什么要使用三级缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98"><span class="toc-number">1.2.</span> <span class="toc-text">什么是三级缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">三级缓存原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E5%8F%8A%E4%BB%A3%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">具体实现及代码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E5%9B%BE%E7%89%87%E7%BC%93%E5%AD%98%E5%B7%A5%E5%85%B7%E7%B1%BB%EF%BC%88MyBitmapUtils%EF%BC%89"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">1. 自定义的图片缓存工具类（MyBitmapUtils）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%BD%91%E7%BB%9C%E7%BC%93%E5%AD%98%EF%BC%88NetCacheUtils%EF%BC%89"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">2. 网络缓存（NetCacheUtils）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98%EF%BC%88LocalCacheUtils%EF%BC%89"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">3. 本地缓存（LocalCacheUtils）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%86%85%E5%AD%98%E7%BC%93%E5%AD%98%EF%BC%88MemoryCacheUtils%EF%BC%89"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">4. 内存缓存（MemoryCacheUtils）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contact-Me"><span class="toc-number">1.4.1.</span> <span class="toc-text">Contact Me</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&text=Android中图片的三级缓存"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&title=Android中图片的三级缓存"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&is_video=false&description=Android中图片的三级缓存"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Android中图片的三级缓存&body=Check out this article: http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&title=Android中图片的三级缓存"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&title=Android中图片的三级缓存"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&title=Android中图片的三级缓存"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&title=Android中图片的三级缓存"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2016/06/12/Android%E4%B8%AD%E5%9B%BE%E7%89%87%E7%9A%84%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98/&name=Android中图片的三级缓存&description=&lt;h1 id=&#34;Android中图片的三级缓存&#34;&gt;&lt;a href=&#34;#Android中图片的三级缓存&#34; class=&#34;headerlink&#34; title=&#34;Android中图片的三级缓存&#34;&gt;&lt;/a&gt;Android中图片的三级缓存&lt;/h1&gt;&lt;h2 id=&#34;为什么要使用三级缓存&#34;&gt;&lt;a href=&#34;#为什么要使用三级缓存&#34; class=&#34;headerlink&#34; title=&#34;为什么要使用三级缓存&#34;&gt;&lt;/a&gt;为什么要使用三级缓存&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;如今的 Android App 经常会需要网络交互，通过网络获取图片是再正常不过的事了&lt;/li&gt;
+&lt;li&gt;假如每次启动的时候都从网络拉取图片的话，势必会消耗很多流量。在当前的状况下，对于非wifi用户来说，流量还是很贵的，一个很耗流量的应用，其用户数量级肯定要受到影响&lt;/li&gt;
+&lt;li&gt;特别是，当我们想要重复浏览一些图片时，如果每一次浏览都需要通过网络获取，流量的浪费可想而知&lt;/li&gt;
+&lt;li&gt;所以提出三级缓存策略，通过网络、本地、内存三级缓存图片，来减少不必要的网络交互，避免浪费流量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;什么是三级缓存&#34;&gt;&lt;a href=&#34;#什么是三级缓存&#34; class=&#34;headerlink&#34; title=&#34;什么是三级缓存&#34;&gt;&lt;/a&gt;什么是三级缓存&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;网络缓存, 不优先加载, 速度慢,浪费流量&lt;/li&gt;
+&lt;li&gt;本地缓存, 次优先加载, 速度快&lt;/li&gt;
+&lt;li&gt;内存缓存, 优先加载, 速度最快&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;三级缓存原理&#34;&gt;&lt;a href=&#34;#三级缓存原理&#34; class=&#34;headerlink&#34; title=&#34;三级缓存原理&#34;&gt;&lt;/a&gt;三级缓存原理&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;首次加载 Android App 时，肯定要通过网络交互来获取图片，之后我们可以将图片保存至本地SD卡和内存中&lt;/li&gt;
+&lt;li&gt;之后运行 App 时，优先访问内存中的图片缓存，若内存中没有，则加载本地SD卡中的图片&lt;/li&gt;
+&lt;li&gt;总之，只在初次访问新内容时，才通过网络获取图片资源&lt;/li&gt;
+&lt;/ul&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2023 Wanbo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

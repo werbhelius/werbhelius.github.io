@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="我在Android开发中遇到的坑之微博正文点击处理 开发是一个漫长的过程，我们会遇到很多很多的坑，有些却是系统级的坑，有时候遇到真是抓狂，不过这也是我们不断进步的过程，今天就给大家讲一个我遇到的一个很坑的问题。 还好我遇到了一个万能的 Android 大神 stainberg ，他帮助我仔细排查并且解决了问题，有他我真的提高了好多。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我在Android开发中遇到的坑之微博正文点击处理">
+<meta property="og:url" content="http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="Wanbo&#39;s Blog">
+<meta property="og:description" content="我在Android开发中遇到的坑之微博正文点击处理 开发是一个漫长的过程，我们会遇到很多很多的坑，有些却是系统级的坑，有时候遇到真是抓狂，不过这也是我们不断进步的过程，今天就给大家讲一个我遇到的一个很坑的问题。 还好我遇到了一个万能的 Android 大神 stainberg ，他帮助我仔细排查并且解决了问题，有他我真的提高了好多。">
+<meta property="og:locale">
+<meta property="og:image" content="https://raw.githubusercontent.com/Werb/hexo_images/master/%E6%88%91%E5%9C%A8%20Android%20%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/textView_clcik.png">
+<meta property="article:published_time" content="2016-11-29T15:54:03.000Z">
+<meta property="article:modified_time" content="2020-12-18T08:04:55.315Z">
+<meta property="article:author" content="Wanbo">
+<meta property="article:tag" content="微博正文">
+<meta property="article:tag" content="点击处理">
+<meta property="article:tag" content="SpannableString">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Werb/hexo_images/master/%E6%88%91%E5%9C%A8%20Android%20%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/textView_clcik.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>我在Android开发中遇到的坑之微博正文点击处理</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/01/01/%E5%86%8D%E8%A7%81%E5%AD%99%E6%82%9F%E7%A9%BA%EF%BC%8C%E5%86%8D%E8%A7%812016/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/11/22/%E7%94%A8Python%E5%AE%8C%E6%88%90Android-apk%E7%9A%84%E7%BC%96%E8%AF%91%E6%89%93%E5%8C%85/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&text=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&is_video=false&description=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=我在Android开发中遇到的坑之微博正文点击处理&body=Check out this article: http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&name=我在Android开发中遇到的坑之微博正文点击处理&description=&lt;h1 id=&#34;我在Android开发中遇到的坑之微博正文点击处理&#34;&gt;&lt;a href=&#34;#我在Android开发中遇到的坑之微博正文点击处理&#34; class=&#34;headerlink&#34; title=&#34;我在Android开发中遇到的坑之微博正文点击处理&#34;&gt;&lt;/a&gt;我在Android开发中遇到的坑之微博正文点击处理&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;开发是一个漫长的过程，我们会遇到很多很多的坑，有些却是系统级的坑，有时候遇到真是抓狂，不过这也是我们不断进步的过程，今天就给大家讲一个我遇到的一个很坑的问题。&lt;/li&gt;
+&lt;li&gt;还好我遇到了一个万能的 Android 大神 stainberg ，他帮助我仔细排查并且解决了问题，有他我真的提高了好多。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img src=&#34;https://raw.githubusercontent.com/Werb/hexo_images/master/%E6%88%91%E5%9C%A8%20Android%20%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/textView_clcik.png&#34; width=&#34;600&#34; height=&#34;450&#34; &gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">我在Android开发中遇到的坑之微博正文点击处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.0.1.</span> <span class="toc-text">需求描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E5%B7%A8%E5%A4%A7%E7%9A%84%E5%9D%91"><span class="toc-number">1.0.2.</span> <span class="toc-text">一个巨大的坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E6%9F%A5%E9%97%AE%E9%A2%98"><span class="toc-number">1.0.3.</span> <span class="toc-text">排查问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.0.4.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E4%BB%A3%E7%A0%81"><span class="toc-number">1.0.5.</span> <span class="toc-text">一些代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contact-Me"><span class="toc-number">1.0.6.</span> <span class="toc-text">Contact Me</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        我在Android开发中遇到的坑之微博正文点击处理
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Wanbo's Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-11-29T15:54:03.000Z" itemprop="datePublished">2016-11-29</time>
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/Android/">Android</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/SpannableString/" rel="tag">SpannableString</a>, <a class="tag-link-link" href="/tags/%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87/" rel="tag">微博正文</a>, <a class="tag-link-link" href="/tags/%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/" rel="tag">点击处理</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="我在Android开发中遇到的坑之微博正文点击处理"><a href="#我在Android开发中遇到的坑之微博正文点击处理" class="headerlink" title="我在Android开发中遇到的坑之微博正文点击处理"></a>我在Android开发中遇到的坑之微博正文点击处理</h1><ul>
+<li>开发是一个漫长的过程，我们会遇到很多很多的坑，有些却是系统级的坑，有时候遇到真是抓狂，不过这也是我们不断进步的过程，今天就给大家讲一个我遇到的一个很坑的问题。</li>
+<li>还好我遇到了一个万能的 Android 大神 stainberg ，他帮助我仔细排查并且解决了问题，有他我真的提高了好多。</li>
+</ul>
+<img src="https://raw.githubusercontent.com/Werb/hexo_images/master/%E6%88%91%E5%9C%A8%20Android%20%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/textView_clcik.png" width="600" height="450" >
+
+<span id="more"></span>
+
+<h3 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h3><ul>
+<li>上图是我们常见的微博界面，其中微博正文中出现了不同标记的字段，有At用户，有##话题，有Url标签。</li>
+<li>重点就是如何处理类似于微博正文中，不同标记的点击事件。</li>
+<li>很显然，使用过微博SDK的同学们都知道，其中微博正文这一段字是在一个 Text 中返回的，所以我们也理应在一个 TextView 中对不同的标记做处理。</li>
+<li>处理的方式很简单，就是使用 Android 中的 SpannableString 和 ClickableSpan ，先配合正则表达式匹配出想要的字符，再通过 SpannableString 的 setSpan() 方法来对标记出得字符串做处理，我们可以对该字符串自定义颜色，点击事件等（后面会有源码）。</li>
+<li>注意所在的 TextView 要实现 textview.setMovementMethod(LinkMovementMethod.getInstance()) 才可以使自定义的点击事件生效。</li>
+</ul>
+<h3 id="一个巨大的坑"><a href="#一个巨大的坑" class="headerlink" title="一个巨大的坑"></a>一个巨大的坑</h3><ul>
+<li>当我做完上面这些后，哇…好棒，每一个标记的字段都可以执行自己规定的点击事件了。</li>
+<li>但是！我发现了一个很严重的问题，标记的字段是可以点击，但由于设置了 textview.setMovementMethod(LinkMovementMethod.getInstance()) 导致 TextView 对点击事件做了拦截，而原本在 RecyclerView 中 item 自己的点击事件却失效了。</li>
+<li>就是说，textView 拦截了全部的点击事件，如果我这一段文字没有任何匹配到的At，##话题标签和Url这类的字符串，它任会拦截。</li>
+<li>我原本想要设计的效果是，当点击特殊字符串的时候，执行自定义的点击事件，而没有特殊字符出现的时候，执行 item 原本的点击事件，例如点击正常文字，进入微博详情页。</li>
+</ul>
+<h3 id="排查问题"><a href="#排查问题" class="headerlink" title="排查问题"></a>排查问题</h3><ul>
+<li>我想问题的原因，应该就是出在了 textview.setMovementMethod(LinkMovementMethod.getInstance()) 上面，所以我查看了 LinkMovementMethod 的源码。</li>
+<li>通过打 debug 发现执行拦截操作的核心代码是下面这一段。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">onTouchEvent</span><span class="params">(TextView widget, Spannable buffer,</span></span><br><span class="line"><span class="params">                              MotionEvent event)</span> &#123;</span><br><span class="line">      <span class="type">int</span> <span class="variable">action</span> <span class="operator">=</span> event.getAction();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (action == MotionEvent.ACTION_UP ||</span><br><span class="line">          action == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">          <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> (<span class="type">int</span>) event.getX();</span><br><span class="line">          <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> (<span class="type">int</span>) event.getY();</span><br><span class="line"></span><br><span class="line">          x -= widget.getTotalPaddingLeft();</span><br><span class="line">          y -= widget.getTotalPaddingTop();</span><br><span class="line"></span><br><span class="line">          x += widget.getScrollX();</span><br><span class="line">          y += widget.getScrollY();</span><br><span class="line"></span><br><span class="line">          <span class="type">Layout</span> <span class="variable">layout</span> <span class="operator">=</span> widget.getLayout();</span><br><span class="line">          <span class="type">int</span> <span class="variable">line</span> <span class="operator">=</span> layout.getLineForVertical(y);</span><br><span class="line">          <span class="type">int</span> <span class="variable">off</span> <span class="operator">=</span> layout.getOffsetForHorizontal(line, x);</span><br><span class="line"></span><br><span class="line">          ClickableSpan[] link = buffer.getSpans(off, off, ClickableSpan.class);</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span> (link.length != <span class="number">0</span>) &#123;</span><br><span class="line">              <span class="keyword">if</span> (action == MotionEvent.ACTION_UP) &#123;</span><br><span class="line">                  link[<span class="number">0</span>].onClick(widget);</span><br><span class="line">              &#125; <span class="keyword">else</span> <span class="keyword">if</span> (action == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">                  Selection.setSelection(buffer,</span><br><span class="line">                                         buffer.getSpanStart(link[<span class="number">0</span>]),</span><br><span class="line">                                         buffer.getSpanEnd(link[<span class="number">0</span>]));</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              Selection.removeSelection(buffer);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">super</span>.onTouchEvent(widget, buffer, event);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>其中有特殊字符串时，走 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if (link.length != 0) &#123;&#125;</span><br></pre></td></tr></table></figure>
+这里面，执行你的自定义点击事件，没有特使字符串的时候走<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return super.onTouchEvent(widget, buffer, event);</span><br></pre></td></tr></table></figure></li>
+<li>然后我继续对没有特使字符串的地方打断点排查，这时候我发现了一个很坑的问题，无论什么样，<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">return super.onTouchEvent(widget, buffer, event);</span><br></pre></td></tr></table></figure>
+都返回 true ，这就意味着 TextView 会一直拦截事件，而外层的 item 永远不会执行点击事件，这里我终于找到了问题的所在。</li>
+<li>我靠，这是一个系统级的 bug 啊，很早之前我就发现了这个问题，但我一直不知道问什么，今天终于明白了，这么久 Google 竟然还不修复。</li>
+</ul>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ul>
+<li>既然我们知道了问题出现的原因，那么就很好解决了，在没有匹配到特殊字符串的时候，返回 False 就好啦。</li>
+<li>一开始我想着重写 LinkMovementMethod ，然后在最后返回 False ，然而并没有什么卵用，依旧被拦截。</li>
+<li>最后在万能的 StackOverFlow 上发现了解决的方法，就是重写一个 TextView 的  setontouchlistener 方法，把上面的代码写到里面就好了，没错就是这么简单，膜拜一下 StackOverFlow 上的大神（代码如下）。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyLinkMovementMethod</span> <span class="keyword">implements</span> <span class="title class_">View</span>.OnTouchListener &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> MyLinkMovementMethod <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (sInstance == <span class="literal">null</span>)</span><br><span class="line">          sInstance = <span class="keyword">new</span> <span class="title class_">MyLinkMovementMethod</span>();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> sInstance;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> MyLinkMovementMethod sInstance;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">onTouch</span><span class="params">(View v, MotionEvent event)</span> &#123;</span><br><span class="line">      <span class="type">boolean</span> <span class="variable">ret</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">      <span class="type">CharSequence</span> <span class="variable">text</span> <span class="operator">=</span> ((TextView) v).getText();</span><br><span class="line">      <span class="type">Spannable</span> <span class="variable">stext</span> <span class="operator">=</span> Spannable.Factory.getInstance().newSpannable(text);</span><br><span class="line">      <span class="type">TextView</span> <span class="variable">widget</span> <span class="operator">=</span> (TextView) v;</span><br><span class="line">      <span class="type">int</span> <span class="variable">action</span> <span class="operator">=</span> event.getAction();</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (action == MotionEvent.ACTION_UP ||</span><br><span class="line">              action == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">          <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> (<span class="type">int</span>) event.getX();</span><br><span class="line">          <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> (<span class="type">int</span>) event.getY();</span><br><span class="line"></span><br><span class="line">          x -= widget.getTotalPaddingLeft();</span><br><span class="line">          y -= widget.getTotalPaddingTop();</span><br><span class="line"></span><br><span class="line">          x += widget.getScrollX();</span><br><span class="line">          y += widget.getScrollY();</span><br><span class="line"></span><br><span class="line">          <span class="type">Layout</span> <span class="variable">layout</span> <span class="operator">=</span> widget.getLayout();</span><br><span class="line">          <span class="type">int</span> <span class="variable">line</span> <span class="operator">=</span> layout.getLineForVertical(y);</span><br><span class="line">          <span class="type">int</span> <span class="variable">off</span> <span class="operator">=</span> layout.getOffsetForHorizontal(line, x);</span><br><span class="line"></span><br><span class="line">          ClickableSpan[] link = stext.getSpans(off, off, ClickableSpan.class);</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span> (link.length != <span class="number">0</span>) &#123;</span><br><span class="line">              <span class="keyword">if</span> (action == MotionEvent.ACTION_UP) &#123;</span><br><span class="line">                  link[<span class="number">0</span>].onClick(widget);</span><br><span class="line">              &#125;</span><br><span class="line">              ret = <span class="literal">true</span>;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> ret;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>然后在 textView 上调用<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">textView.setOnTouchListener(MyLinkMovementMethod.getInstance());</span><br></pre></td></tr></table></figure></li>
+<li>就这样！有特殊字符串的地方，会执行自定义点击事件，没有特殊字符串的地方执行 item 原有的点击事件。</li>
+</ul>
+<h3 id="一些代码"><a href="#一些代码" class="headerlink" title="一些代码"></a>一些代码</h3><ul>
+<li>其中正则表达式亲测有效，可放心使用。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 将微博正文中的 @ 和 # ，url标识出</span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@param</span> text</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">static</span> SpannableString <span class="title function_">getWeiBoText</span><span class="params">(Context context, String text)</span> &#123;</span><br><span class="line">     <span class="type">Resources</span> <span class="variable">res</span> <span class="operator">=</span> context.getResources();</span><br><span class="line">     <span class="comment">//四种正则表达式</span></span><br><span class="line">     <span class="type">Pattern</span> <span class="variable">AT_PATTERN</span> <span class="operator">=</span> Pattern.compile(<span class="string">&quot;@[\\u4e00-\\u9fa5\\w\\-]+&quot;</span>);</span><br><span class="line">     <span class="type">Pattern</span> <span class="variable">TAG_PATTERN</span> <span class="operator">=</span> Pattern.compile(<span class="string">&quot;#([^\\#|.]+)#&quot;</span>);</span><br><span class="line">     <span class="type">Pattern</span> <span class="variable">Url_PATTERN</span> <span class="operator">=</span> Pattern.compile(<span class="string">&quot;((http|https|ftp|ftps):\\/\\/)?([a-zA-Z0-9-]+\\.)&#123;1,5&#125;(com|cn|net|org|hk|tw)((\\/(\\w|-)+(\\.([a-zA-Z]+))?)+)?(\\/)?(\\??([\\.%:a-zA-Z0-9_-]+=[#\\.%:a-zA-Z0-9_-]+(&amp;amp;)?)+)?&quot;</span>);</span><br><span class="line">     <span class="type">Pattern</span> <span class="variable">EMOJI_PATTER</span> <span class="operator">=</span> Pattern.compile(<span class="string">&quot;\\[([\u4e00-\u9fa5\\w])+\\]&quot;</span>);</span><br><span class="line"></span><br><span class="line">     <span class="type">SpannableString</span> <span class="variable">spannable</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SpannableString</span>(text);</span><br><span class="line"></span><br><span class="line">     <span class="type">Matcher</span> <span class="variable">tag</span> <span class="operator">=</span> TAG_PATTERN.matcher(spannable);</span><br><span class="line">     <span class="keyword">while</span> (tag.find()) &#123;</span><br><span class="line">         <span class="type">String</span> <span class="variable">tagNameMatch</span> <span class="operator">=</span> tag.group();</span><br><span class="line">         <span class="type">int</span> <span class="variable">start</span> <span class="operator">=</span> tag.start();</span><br><span class="line">         spannable.setSpan(<span class="keyword">new</span> <span class="title class_">MyTagSpan</span>(context, tagNameMatch), start, start + tagNameMatch.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="type">Matcher</span> <span class="variable">at</span> <span class="operator">=</span> AT_PATTERN.matcher(spannable);</span><br><span class="line">     <span class="keyword">while</span> (at.find()) &#123;</span><br><span class="line">         <span class="type">String</span> <span class="variable">atUserName</span> <span class="operator">=</span> at.group();</span><br><span class="line">         <span class="type">int</span> <span class="variable">start</span> <span class="operator">=</span> at.start();</span><br><span class="line">         spannable.setSpan(<span class="keyword">new</span> <span class="title class_">MyAtSpan</span>(context, atUserName), start, start + atUserName.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="type">Matcher</span> <span class="variable">url</span> <span class="operator">=</span> Url_PATTERN.matcher(spannable);</span><br><span class="line">     <span class="keyword">while</span> (url.find()) &#123;</span><br><span class="line">         <span class="type">String</span> <span class="variable">urlString</span> <span class="operator">=</span> url.group();</span><br><span class="line">         <span class="type">int</span> <span class="variable">start</span> <span class="operator">=</span> url.start();</span><br><span class="line">         spannable.setSpan(<span class="keyword">new</span> <span class="title class_">MyURLSpan</span>(context, urlString), start, start + urlString.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="type">Matcher</span> <span class="variable">emoji</span> <span class="operator">=</span> EMOJI_PATTER.matcher(spannable);</span><br><span class="line">     <span class="keyword">while</span> (emoji.find()) &#123;</span><br><span class="line">         <span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> emoji.group(); <span class="comment">// 获取匹配到的具体字符</span></span><br><span class="line">         <span class="type">int</span> <span class="variable">start</span> <span class="operator">=</span> emoji.start(); <span class="comment">// 匹配字符串的开始位置</span></span><br><span class="line">         <span class="type">Integer</span> <span class="variable">imgRes</span> <span class="operator">=</span> Emotion.getImgByName(key);</span><br><span class="line">         System.out.println(<span class="string">&quot;@@@&quot;</span>+imgRes);</span><br><span class="line">         <span class="keyword">if</span> (imgRes != <span class="literal">null</span>) &#123;</span><br><span class="line">             BitmapFactory.<span class="type">Options</span> <span class="variable">options</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BitmapFactory</span>.Options();</span><br><span class="line">             options.inJustDecodeBounds = <span class="literal">true</span>;</span><br><span class="line">             BitmapFactory.decodeResource(res, imgRes, options);</span><br><span class="line"></span><br><span class="line">             <span class="type">int</span> <span class="variable">scale</span> <span class="operator">=</span> (<span class="type">int</span>) (options.outWidth / <span class="number">32</span>);</span><br><span class="line">             options.inJustDecodeBounds = <span class="literal">false</span>;</span><br><span class="line">             options.inSampleSize = scale;</span><br><span class="line">             <span class="type">Bitmap</span> <span class="variable">bitmap</span> <span class="operator">=</span> BitmapFactory.decodeResource(res, imgRes, options);</span><br><span class="line"></span><br><span class="line">             <span class="type">ImageSpan</span> <span class="variable">span</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ImageSpan</span>(context, bitmap);</span><br><span class="line">             spannable.setSpan(span, start, start + key.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">return</span> spannable;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 用于weibo text中的连接跳转</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"> <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">MyURLSpan</span> <span class="keyword">extends</span> <span class="title class_">ClickableSpan</span> &#123;</span><br><span class="line">     <span class="keyword">private</span> String mUrl;</span><br><span class="line">     <span class="keyword">private</span> Context context;</span><br><span class="line"></span><br><span class="line">     MyURLSpan(Context ctx, String url) &#123;</span><br><span class="line">         context = ctx;</span><br><span class="line">         mUrl = url;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="meta">@Override</span></span><br><span class="line">     <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">updateDrawState</span><span class="params">(TextPaint ds)</span> &#123;</span><br><span class="line">         ds.setColor(Color.parseColor(<span class="string">&quot;#f44336&quot;</span>));</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="meta">@Override</span></span><br><span class="line">     <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(View widget)</span> &#123;</span><br><span class="line">         <span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> UrlActivity.newIntent(context, mUrl);</span><br><span class="line">         context.startActivity(intent);</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Contact-Me"><a href="#Contact-Me" class="headerlink" title="Contact Me"></a>Contact Me</h3><ul>
+<li>Email: <a href="mailto:&#49;&#x30;&#x32;&#x35;&#48;&#48;&#52;&#54;&#x38;&#48;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#109;">&#49;&#x30;&#x32;&#x35;&#48;&#48;&#52;&#54;&#x38;&#48;&#x40;&#113;&#x71;&#x2e;&#99;&#x6f;&#109;</a></li>
+<li>Weibo: <a target="_blank" rel="noopener" href="http://weibo.com/singerwannber">UMR80</a></li>
+<li>GitHub: <a target="_blank" rel="noopener" href="https://github.com/Werb">Werb</a></li>
+<li>Blog：<a target="_blank" rel="noopener" href="http://werb.github.io/">Werb’s Blog</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">我在Android开发中遇到的坑之微博正文点击处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.0.1.</span> <span class="toc-text">需求描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E5%B7%A8%E5%A4%A7%E7%9A%84%E5%9D%91"><span class="toc-number">1.0.2.</span> <span class="toc-text">一个巨大的坑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E6%9F%A5%E9%97%AE%E9%A2%98"><span class="toc-number">1.0.3.</span> <span class="toc-text">排查问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.0.4.</span> <span class="toc-text">解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E4%BB%A3%E7%A0%81"><span class="toc-number">1.0.5.</span> <span class="toc-text">一些代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Contact-Me"><span class="toc-number">1.0.6.</span> <span class="toc-text">Contact Me</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&text=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&is_video=false&description=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=我在Android开发中遇到的坑之微博正文点击处理&body=Check out this article: http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&title=我在Android开发中遇到的坑之微博正文点击处理"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2016/11/29/%E6%88%91%E5%9C%A8Android%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%BE%AE%E5%8D%9A%E6%AD%A3%E6%96%87%E7%82%B9%E5%87%BB%E5%A4%84%E7%90%86/&name=我在Android开发中遇到的坑之微博正文点击处理&description=&lt;h1 id=&#34;我在Android开发中遇到的坑之微博正文点击处理&#34;&gt;&lt;a href=&#34;#我在Android开发中遇到的坑之微博正文点击处理&#34; class=&#34;headerlink&#34; title=&#34;我在Android开发中遇到的坑之微博正文点击处理&#34;&gt;&lt;/a&gt;我在Android开发中遇到的坑之微博正文点击处理&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;开发是一个漫长的过程，我们会遇到很多很多的坑，有些却是系统级的坑，有时候遇到真是抓狂，不过这也是我们不断进步的过程，今天就给大家讲一个我遇到的一个很坑的问题。&lt;/li&gt;
+&lt;li&gt;还好我遇到了一个万能的 Android 大神 stainberg ，他帮助我仔细排查并且解决了问题，有他我真的提高了好多。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img src=&#34;https://raw.githubusercontent.com/Werb/hexo_images/master/%E6%88%91%E5%9C%A8%20Android%20%E5%BC%80%E5%8F%91%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91/textView_clcik.png&#34; width=&#34;600&#34; height=&#34;450&#34; &gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2023 Wanbo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="时间是一个很奇妙的东西，我们作为生活在四维时空中的三维生物，通过第四维度也就是时间来感知彼此。关于时间的词、时间的歌有很多，感知时间的流逝是我们与生俱来的能力。 当你读完这句话的时候，你的时间又流逝了20秒，有趣的是我们对时间有天生的感知，古时候的人就常说：日出而作 日落而息，但现在的我们却常常忽略它的存在。16年毕业到现在，工作了三年时间，每次和父母打电话都说我很忙，但现在仔细回想却想不出我究竟">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于为什么开发 Time Fly 这款 App">
+<meta property="og:url" content="http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/index.html">
+<meta property="og:site_name" content="Wanbo&#39;s Blog">
+<meta property="og:description" content="时间是一个很奇妙的东西，我们作为生活在四维时空中的三维生物，通过第四维度也就是时间来感知彼此。关于时间的词、时间的歌有很多，感知时间的流逝是我们与生俱来的能力。 当你读完这句话的时候，你的时间又流逝了20秒，有趣的是我们对时间有天生的感知，古时候的人就常说：日出而作 日落而息，但现在的我们却常常忽略它的存在。16年毕业到现在，工作了三年时间，每次和父母打电话都说我很忙，但现在仔细回想却想不出我究竟">
+<meta property="og:locale">
+<meta property="og:image" content="http://werbhelius.com/images/2019-12-28/2.JPG">
+<meta property="og:image" content="http://werbhelius.com/images/2019-12-28/1.png">
+<meta property="article:published_time" content="2019-12-28T04:46:05.000Z">
+<meta property="article:modified_time" content="2020-12-18T10:01:18.685Z">
+<meta property="article:author" content="Wanbo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://werbhelius.com/images/2019-12-28/2.JPG">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>关于为什么开发 Time Fly 这款 App</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/11/10/Track-Privacy-Policy/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/12/28/Time-Fly-Privacy-Policy/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&text=关于为什么开发 Time Fly 这款 App"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&title=关于为什么开发 Time Fly 这款 App"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&is_video=false&description=关于为什么开发 Time Fly 这款 App"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=关于为什么开发 Time Fly 这款 App&body=Check out this article: http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&title=关于为什么开发 Time Fly 这款 App"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&title=关于为什么开发 Time Fly 这款 App"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&title=关于为什么开发 Time Fly 这款 App"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&title=关于为什么开发 Time Fly 这款 App"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&name=关于为什么开发 Time Fly 这款 App&description=&lt;p&gt;时间是一个很奇妙的东西，我们作为生活在四维时空中的三维生物，通过第四维度也就是时间来感知彼此。关于时间的词、时间的歌有很多，感知时间的流逝是我们与生俱来的能力。&lt;/p&gt;
+&lt;p&gt;当你读完这句话的时候，你的时间又流逝了20秒，有趣的是我们对时间有天生的感知，古时候的人就常说：日出而作 日落而息，但现在的我们却常常忽略它的存在。16年毕业到现在，工作了三年时间，每次和父母打电话都说我很忙，但现在仔细回想却想不出我究竟在忙什么，到底我的时间都去哪里了？&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        关于为什么开发 Time Fly 这款 App
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Wanbo's Blog</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2019-12-28T04:46:05.000Z" itemprop="datePublished">2019-12-28</time>
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>时间是一个很奇妙的东西，我们作为生活在四维时空中的三维生物，通过第四维度也就是时间来感知彼此。关于时间的词、时间的歌有很多，感知时间的流逝是我们与生俱来的能力。</p>
+<p>当你读完这句话的时候，你的时间又流逝了20秒，有趣的是我们对时间有天生的感知，古时候的人就常说：日出而作 日落而息，但现在的我们却常常忽略它的存在。16年毕业到现在，工作了三年时间，每次和父母打电话都说我很忙，但现在仔细回想却想不出我究竟在忙什么，到底我的时间都去哪里了？</p>
+<span id="more"></span>
+
+<p>时间和记忆是相关联的，正因为我们能感知时间的流逝，所以形成了记忆，丰富的记忆让我们能感受到我们现在所身处的是一个动态的世界。当然记忆也会带给我们痛苦和悲伤，相信很多人都想过如果能删除一段痛苦的回忆该多好。</p>
+<p>很遗憾，目前为止是无法实现的，18年的后几个月是我近几年最痛苦的一段时光，每天有很忙的工作，一身疲惫回到家但却整晚失眠，焦虑、抑郁，经常望着窗户发呆，不知不觉天就亮了。</p>
+<p>偶然的一次，看了一本叫《把时间当作朋友》的书，作者是李笑来。其中有一章节写的是【感知时间】，他说他会每天花 10 分钟，用一个小本子在睡觉前记录一下一天中所发生的事情。然后我也学着像他一样，每天睡前在床头的本子上记录一下今天所发生的事情。这样做一定程度上缓解了我失眠时的焦虑，你知道那是一种没有缘由的焦虑，我能清楚的感受到时间在流逝，但却非常无力。</p>
+<p><img src="/images/2019-12-28/2.JPG" alt="photo1"></p>
+<p>从那时起，每天睡觉前的 10 分钟，我都会记录一下今天发生的事情，妄图通过像流水帐似的记录，来让我知道我今天没有白过，即使每天很无聊，工作很累，效率很低，但是这就是我的一天，至少我知道时间是怎么在我手中溜走的。</p>
+<p>熬夜为什么会让我们如此痴迷？有人说，是夜晚给了我们时间，让我们去做真实的自己。白天我们花费在他人、花费在工作上的时间越多，晚上我们想要熬夜的欲望就越强烈。哪怕我们清楚地明白熬夜会影响我们的身心健康，但我们依旧不想舍弃夜晚的时光。</p>
+<p>也许正是因为这样，我开始习惯性熬夜，同时我也是一个特别喜欢胡思乱想的人，最终变成生理性的失眠和焦虑。</p>
+<p>每天睡前拿笔记录一下一天发生的事情，并不会药到病除的解决我的失眠和焦虑，但却潜移默化的改变了我的想法，我开始接受那一天中忙碌的我、疲惫不堪的我、无论这一天多糟糕，那都是我，至少我知道这一天没有白过，至少心情不会莫名的像之前那么差，让我重新认识了自己。</p>
+<p>夜已经深了，我做不了什么，也改变不了什么，唯一能做的就是回顾一下这一天哪些做的不好，然后认真睡觉，期待一下明天，继续努力，仅此而已。</p>
+<p>我认为支撑一个人走下去最大的动力就是希望，特别是享受那种朝着希望努力的感觉。</p>
+<p>仔细回想一下，如果这一天中你都很开心，你会忘掉其中的烦恼，和你喜欢的人聊了很久然后睡前互道晚安，带着对未来的幻想入睡，你会睡的很香。</p>
+<p>程序员都是妄图改变世界的，我曾经也是，之前有过很多异想天开的想法，但一个人的力量真的太小。所以我只求我可以通过我的努力，让生活变得更好。</p>
+<p>如果可以，希望我的 App 可以帮到你，让你感受时间真真切切的存在，和时间做朋友，认识真实的自己。开头说过，我们在四维空间中通过时间来感知彼此，其实不止彼此，还有自己和自己的重新认识，可能有些奇怪，但谁又敢说自己真的了解自己呢？</p>
+<p><img src="/images/2019-12-28/1.png" alt="photo1"></p>
+<p>这是 Time Fly 开发工作完成那天的我的一天，每一天都是从 0 点到 24 点，当你没有记录任何东西的时候，就是 24 条空白，时间就是这样，不管你怎么样，它都以它自己的轨迹前行，不会等你，过去就是过去了，你能做的只能期待新一天的开始。</p>
+<p>为什么叫 Time Fly，我曾经想起一个高大上有逼格的名字，但想不到，因为时间这个概念太熟悉了，不如就简单一点。你可以建立不同的时光，以年为单位、以月为单位、以周为单位都可以，希望你在很久很久之后，可以翻到前面的时光中，看看以前的自己，当你迷茫时、当你变成自己讨厌的样子的时候，找回真正的自己。</p>
+<p>你可以归档、可以删除某一段时光，归档就像一本日记记完，然后换另一本，时不时你还可以再次拿出来翻阅，但删除之后就真的找不回来了。</p>
+<p>很多人妄图做出翻天覆地的产品，把人性研究到极致，然后悄声无息的偷走你的时间，希望这款 App 可以帮你找回被偷走的时间。</p>
+<p>好了，今天就聊到这里，其实我还有很多话想说</p>
+<p>有机会 我就把我的故事 讲给你听</p>
+<p>接下来 Time Fly 有什么计划呢？</p>
+<p>不告诉你😜</p>
+<p>不过，你可以期待一下 Android 版，毕竟我的本职工作是一名 Android 开发工程师。</p>
+<p>对了，每天十分钟，记得记录一下今天发生的事情哦～</p>
+<p>期待你可以喜欢这款产品。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&text=关于为什么开发 Time Fly 这款 App"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&title=关于为什么开发 Time Fly 这款 App"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&is_video=false&description=关于为什么开发 Time Fly 这款 App"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=关于为什么开发 Time Fly 这款 App&body=Check out this article: http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&title=关于为什么开发 Time Fly 这款 App"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&title=关于为什么开发 Time Fly 这款 App"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&title=关于为什么开发 Time Fly 这款 App"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&title=关于为什么开发 Time Fly 这款 App"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://werbhelius.com/2019/12/28/%E5%85%B3%E4%BA%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BC%80%E5%8F%91%E3%80%8C%E6%97%B6%E5%85%89%E6%9C%BA%E3%80%8D%E8%BF%99%E6%AC%BE-App/&name=关于为什么开发 Time Fly 这款 App&description=&lt;p&gt;时间是一个很奇妙的东西，我们作为生活在四维时空中的三维生物，通过第四维度也就是时间来感知彼此。关于时间的词、时间的歌有很多，感知时间的流逝是我们与生俱来的能力。&lt;/p&gt;
+&lt;p&gt;当你读完这句话的时候，你的时间又流逝了20秒，有趣的是我们对时间有天生的感知，古时候的人就常说：日出而作 日落而息，但现在的我们却常常忽略它的存在。16年毕业到现在，工作了三年时间，每次和父母打电话都说我很忙，但现在仔细回想却想不出我究竟在忙什么，到底我的时间都去哪里了？&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2023 Wanbo
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/categories">categories</a></li>
+         
+          <li><a href="/archives">archives</a></li>
+         
+          <li><a href="/tags">tags</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/werbhelius">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
